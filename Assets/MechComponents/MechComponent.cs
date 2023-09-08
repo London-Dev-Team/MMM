@@ -45,6 +45,11 @@ public abstract class MechComponent : MonoBehaviour
         return true;
     }
 
+    public virtual void ResetComponent()
+    {
+        mechComponentState = MechComponentState.NotStarted;
+    }
+
 
     public MechComponentState GetState()
     {
@@ -54,9 +59,9 @@ public abstract class MechComponent : MonoBehaviour
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect(transform.position.x, transform.position.y,  125, 50), "Fix"))
+        if (GUI.Button(new Rect(transform.position.x, transform.position.y, 125, 50), "Fix"))
             Fix();
-        if (GUI.Button(new Rect(transform.position.x, transform.position.y + 60,  125, 50),
+        if (GUI.Button(new Rect(transform.position.x, transform.position.y + 60, 125, 50),
                     "Break"))
             Break();
         if (GUI.Button(new Rect(transform.position.x, transform.position.y + 120, 125, 50),

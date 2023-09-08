@@ -27,7 +27,7 @@ public class ActManager : MonoBehaviour
 
     private List<MechComponent> componentList = new List<MechComponent>();
 
-    [Header("Progress Variable")]
+    [Header("Progress Variables")]
 
     [SerializeField]
     private int winThreshold = 100;
@@ -36,7 +36,15 @@ public class ActManager : MonoBehaviour
     private int loseThreshold = 0;
 
     [SerializeField]
-    private int progressCounter = 50;
+    private int startingProgress = 50;
+
+    [SerializeField]
+    private int progressCounter = 0;
+
+
+    public enum ActState { Playing, Won, Lost };
+    [SerializeField]
+    public ActState actState = ActState.Playing;
 
     [Range(0, 5)]
     [SerializeField]
@@ -48,6 +56,7 @@ public class ActManager : MonoBehaviour
 
     void Start()
     {
+        progressCounter = startingProgress;
         foreach (GameObject componentObj in componentObjectList)
         {
             componentList.Add(componentObj.GetComponent<MechComponent>());
@@ -71,9 +80,18 @@ public class ActManager : MonoBehaviour
 
     }
 
-    void StopAct(){
+
+    void StopAct()
+    {
         isUpdatingProgress = false;
     }
+
+
+    void StartAct()
+    {
+        isUpdatingProgress = true;
+    }
+
 
     void UpdateProgress()
     {
@@ -97,27 +115,62 @@ public class ActManager : MonoBehaviour
         if (progressCounter <= loseThreshold)
         {
             LoseAct();
-            StopAct();
         }
         else if (progressCounter >= winThreshold)
         {
             WinAct();
-            StopAct();
         }
     }
 
 
     public void WinAct()
     {
+        if (actState == ActState.Won)
+        {
+            Debug.LogError("You've already won! Reset to try again!");
+            return;
+        }
+
         Debug.Log("ACT WON!");
+        actState = ActState.Won;
+        if (progressCounter < winThreshold)
+        {
+            progressCounter = winThreshold;
+        }
         progressManager.UnlockAct(actIndex + 1);
         progressManager.SaveProgress();
+        StopAct();
     }
 
 
     public void LoseAct()
     {
+        if (actState == ActState.Lost)
+        {
+            Debug.LogError("You've already lost! Reset to try again!");
+            return;
+        }
+
         Debug.Log("ACT LOST!");
+        actState = ActState.Lost;
+        if (progressCounter > loseThreshold)
+        {
+            progressCounter = loseThreshold;
+        }
+        StopAct();
+    }
+
+    public void ResetAct()
+    {
+        Debug.Log("RESET ACT!");
+
+        foreach (MechComponent component in componentList)
+        {
+            component.ResetComponent();
+        }
+        progressCounter = startingProgress;
+        actState = ActState.Playing;
+        StartAct();
     }
 }
 
@@ -140,6 +193,11 @@ public class ActProgress : Editor
         if (GUILayout.Button("Lose Act"))
         {
             myScript.LoseAct();
+        }
+
+        if (GUILayout.Button("Reset Act"))
+        {
+            myScript.ResetAct();
         }
     }
 }

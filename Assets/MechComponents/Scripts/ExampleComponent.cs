@@ -42,4 +42,12 @@ public class ExampleComponent : MechComponent
         return true;
     }
 
+
+
+    public override void ResetComponent()
+    {
+        base.ResetComponent();
+        Debug.Log("Reset ExampleComponent!");
+    }
+
 }
