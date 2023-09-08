@@ -24,6 +24,8 @@ public class ActManager : MonoBehaviour
     private int progressCounter = 50;
 
 
+    private float updateTimer = 0.0f;
+
     void Start()
     {
         foreach (GameObject componentObj in componentObjectList)
@@ -36,6 +38,17 @@ public class ActManager : MonoBehaviour
 
     void Update()
     {
+
+        if (isUpdatingProgress)
+        {
+            updateTimer += Time.deltaTime;
+            if (updateTimer > 1.0f)
+            {
+                updateTimer = 0.0f;
+                UpdateProgress();
+            }
+        }
+
         if (progressCounter <= loseThreshold)
         {
             LoseAct();
@@ -44,15 +57,7 @@ public class ActManager : MonoBehaviour
         {
             WinAct();
         }
-    }
 
-
-    void FixedUpdate()
-    {
-        if (isUpdatingProgress)
-        {
-            UpdateProgress();
-        }
     }
 
     void UpdateProgress()
