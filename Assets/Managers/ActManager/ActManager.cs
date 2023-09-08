@@ -60,6 +60,7 @@ public class ActManager : MonoBehaviour
 
     }
 
+
     void UpdateProgress()
     {
 
@@ -83,6 +84,7 @@ public class ActManager : MonoBehaviour
             }
         }
     }
+
 
     void WinAct()
     {
