@@ -25,6 +25,7 @@ public class ActManager : MonoBehaviour
 
 
     private float updateTimer = 0.0f;
+    private float tickTime = 1.0f;
 
     void Start()
     {
@@ -42,7 +43,7 @@ public class ActManager : MonoBehaviour
         if (isUpdatingProgress)
         {
             updateTimer += Time.deltaTime;
-            if (updateTimer > 1.0f)
+            if (updateTimer > tickTime)
             {
                 updateTimer = 0.0f;
                 UpdateProgress();
