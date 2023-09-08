@@ -83,12 +83,12 @@ public class ProgressManager : MonoBehaviour
 
     void OnGUI()
     {
-        if (GUI.Button(new Rect(750, 0, 125, 50), "Save Your Game"))
+        if (GUI.Button(new Rect(transform.position.x, transform.position.y, 125, 50), "Save Your Game"))
             SaveProgress();
-        if (GUI.Button(new Rect(750, 100, 125, 50),
+        if (GUI.Button(new Rect(transform.position.x, transform.position.y + 60, 125, 50),
                     "Load Your Game"))
             LoadProgress();
-        if (GUI.Button(new Rect(750, 200, 125, 50),
+        if (GUI.Button(new Rect(transform.position.x, transform.position.y + 120, 125, 50),
                     "Reset Save Data"))
             ResetProgress();
     }
