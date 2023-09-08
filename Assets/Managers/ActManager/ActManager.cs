@@ -108,7 +108,6 @@ public class ActManager : MonoBehaviour
     }
 
 
-
     public void WinAct()
     {
         Debug.Log("ACT WON!");
