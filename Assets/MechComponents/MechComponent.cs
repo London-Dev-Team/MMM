@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class MechComponent : MonoBehaviour
 {
     public enum MechComponentState { NotStarted, Running, Broken };
-    protected MechComponentState mechComponentState = MechComponentState.NotStarted;
+    private MechComponentState mechComponentState = MechComponentState.NotStarted;
 
 
     protected virtual void Fix()
