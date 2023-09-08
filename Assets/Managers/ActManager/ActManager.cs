@@ -1,18 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEditor;
 
 public class ActManager : MonoBehaviour
 {
 
+
+    [Header("Manager References")]
+
+    [SerializeField]
+    private ProgressManager progressManager;
+
+
+    [Header("For Pausing")]
+
     [SerializeField]
     private bool isUpdatingProgress = true;
+
+
+    [Header("Components")]
 
     [SerializeField]
     private List<GameObject> componentObjectList = new List<GameObject>();
 
     // This will be a list of Components instead of ints
     private List<int> componentList = new List<int>();
+
+    [Header("Progress Variable")]
 
     [SerializeField]
     private int winThreshold = 100;
@@ -22,6 +38,10 @@ public class ActManager : MonoBehaviour
 
     [SerializeField]
     private int progressCounter = 50;
+
+    [Range(0, 5)]
+    [SerializeField]
+    private int actIndex = 0;
 
 
     private float updateTimer = 0.0f;
@@ -34,6 +54,7 @@ public class ActManager : MonoBehaviour
             // Below will be uncommented once component script exists:
             // componentList.Add(componentObj.GetComponent<Component>());
         }
+
     }
 
 
@@ -87,14 +108,39 @@ public class ActManager : MonoBehaviour
     }
 
 
-    void WinAct()
+    public void WinAct()
     {
         Debug.Log("ACT WON!");
+        progressManager.UnlockAct(actIndex+1);
+        progressManager.SaveProgress();
     }
 
 
-    void LoseAct()
+    public void LoseAct()
     {
         Debug.Log("ACT LOST!");
+    }
+}
+
+[CustomEditor(typeof(ActManager))]
+public class ObjectBuilderEditor : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        EditorGUILayout.LabelField("Functions", EditorStyles.boldLabel);
+
+        ActManager myScript = (ActManager)target;
+
+        if(GUILayout.Button("Win Act"))
+        {
+            myScript.WinAct();
+        }
+
+        if(GUILayout.Button("Lose Act"))
+        {
+            myScript.LoseAct();
+        }
     }
 }
