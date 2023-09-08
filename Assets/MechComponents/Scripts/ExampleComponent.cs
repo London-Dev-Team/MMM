@@ -4,22 +4,42 @@ using UnityEngine;
 
 public class ExampleComponent : MechComponent
 {
-    
-    protected override void Fix()
+    public override bool StartComponent()
     {
-        base.Fix();
+        if (!base.StartComponent())
+        {
+            return false;
+        }
+        // Anything unique to fixing a component goes here
+        // E.g. when you FIRST start a fan, it plays a sound
+        Debug.Log("Started ExampleComponent!");
+        return true;
+    }
+
+    public override bool Fix()
+    {
+        if (!base.Fix())
+        {
+            return false;
+        }
         // Anything unique to fixing a component goes here
         // E.g. when you fix a fan you want it to start spinning
         Debug.Log("Fixed ExampleComponent!");
+        return true;
     }
 
 
-    protected override void Break()
+    public override bool Break()
     {
-        base.Break();
+        if (!base.Break())
+        {
+            return false;
+        }
+
         // Anything unique to fixing a component goes here
         // E.g. when you break a fan you want it to stop spinning
         Debug.Log("Broke ExampleComponent!");
+        return true;
     }
 
 }

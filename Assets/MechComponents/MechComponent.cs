@@ -1,27 +1,82 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
+
 
 public abstract class MechComponent : MonoBehaviour
 {
     public enum MechComponentState { NotStarted, Running, Broken };
-    protected MechComponentState mechComponentState = MechComponentState.NotStarted;
+    [SerializeField]
+    public MechComponentState mechComponentState = MechComponentState.NotStarted;
 
-
-    protected virtual void Fix()
+    public virtual bool StartComponent()
     {
+        if (mechComponentState != MechComponentState.NotStarted)
+        {
+            Debug.LogError("Cannot StartComponent() this component unless it's NotStarted!");
+            return false;
+        }
         mechComponentState = MechComponentState.Running;
+        return true;
     }
 
-
-    protected virtual void Break()
+    public virtual bool Fix()
     {
-        mechComponentState = MechComponentState.Broken;
+        if (mechComponentState != MechComponentState.Broken)
+        {
+            Debug.LogError("Cannot Fix() this component unless it's Broken!");
+            return false;
+        }
+
+        mechComponentState = MechComponentState.Running;
+        return true;
     }
 
 
-    MechComponentState GetState()
+    public virtual bool Break()
+    {
+        if (mechComponentState != MechComponentState.Running)
+        {
+            Debug.LogError("Cannot Break() this component unless it's Running!");
+            return false;
+        }
+        mechComponentState = MechComponentState.Broken;
+        return true;
+    }
+
+
+    public MechComponentState GetState()
     {
         return mechComponentState;
+    }
+}
+
+
+[CustomEditor(typeof(MechComponent), true)]
+public class ComponentState : Editor
+{
+    public override void OnInspectorGUI()
+    {
+        DrawDefaultInspector();
+
+        EditorGUILayout.LabelField("Functions", EditorStyles.boldLabel);
+
+        MechComponent myScript = (MechComponent)target;
+
+        if (GUILayout.Button("Start"))
+        {
+            myScript.StartComponent();
+        }
+
+        if (GUILayout.Button("Fix"))
+        {
+            myScript.Fix();
+        }
+
+        if (GUILayout.Button("Break"))
+        {
+            myScript.Break();
+        }
     }
 }

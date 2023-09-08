@@ -25,8 +25,7 @@ public class ActManager : MonoBehaviour
     [SerializeField]
     private List<GameObject> componentObjectList = new List<GameObject>();
 
-    // This will be a list of Components instead of ints
-    private List<int> componentList = new List<int>();
+    private List<MechComponent> componentList = new List<MechComponent>();
 
     [Header("Progress Variable")]
 
@@ -51,8 +50,7 @@ public class ActManager : MonoBehaviour
     {
         foreach (GameObject componentObj in componentObjectList)
         {
-            // Below will be uncommented once component script exists:
-            // componentList.Add(componentObj.GetComponent<Component>());
+            componentList.Add(componentObj.GetComponent<MechComponent>());
         }
 
     }
@@ -74,33 +72,34 @@ public class ActManager : MonoBehaviour
         if (progressCounter <= loseThreshold)
         {
             LoseAct();
+            StopAct();
         }
         else if (progressCounter >= winThreshold)
         {
             WinAct();
+            StopAct();
         }
 
     }
 
+    void StopAct(){
+        isUpdatingProgress = false;
+    }
 
     void UpdateProgress()
     {
 
-        // This int will be a Component script
-        foreach (int component in componentList)
+        foreach (MechComponent component in componentList)
         {
-            // If component.state = RUNNING
-            if (component == 0)
+            if (component.GetState() == MechComponent.MechComponentState.Running)
             {
                 progressCounter++;
             }
-            // If component.state = BROKEN
-            else if (component == 1)
+            else if (component.GetState() == MechComponent.MechComponentState.Broken)
             {
                 progressCounter--;
             }
-            // If component.state = NOTSTARTED
-            else if (component == 2)
+            else if (component.GetState() == MechComponent.MechComponentState.NotStarted)
             {
                 ;
             }
@@ -111,7 +110,7 @@ public class ActManager : MonoBehaviour
     public void WinAct()
     {
         Debug.Log("ACT WON!");
-        progressManager.UnlockAct(actIndex+1);
+        progressManager.UnlockAct(actIndex + 1);
         progressManager.SaveProgress();
     }
 
@@ -123,7 +122,7 @@ public class ActManager : MonoBehaviour
 }
 
 [CustomEditor(typeof(ActManager))]
-public class ObjectBuilderEditor : Editor
+public class ActProgress : Editor
 {
     public override void OnInspectorGUI()
     {
@@ -133,12 +132,12 @@ public class ObjectBuilderEditor : Editor
 
         ActManager myScript = (ActManager)target;
 
-        if(GUILayout.Button("Win Act"))
+        if (GUILayout.Button("Win Act"))
         {
             myScript.WinAct();
         }
 
-        if(GUILayout.Button("Lose Act"))
+        if (GUILayout.Button("Lose Act"))
         {
             myScript.LoseAct();
         }
