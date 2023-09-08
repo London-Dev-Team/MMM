@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEditor;
+using UnityEngine.UIElements;
 
 public class ActManager : MonoBehaviour
 {
@@ -54,8 +55,14 @@ public class ActManager : MonoBehaviour
     private float updateTimer = 0.0f;
     private float tickTime = 1.0f;
 
+
+    GUIStyle style;
+
     void Start()
     {
+        style = new GUIStyle();
+        style.normal.textColor = Color.black;
+
         progressCounter = startingProgress;
         foreach (GameObject componentObj in componentObjectList)
         {
@@ -171,6 +178,15 @@ public class ActManager : MonoBehaviour
         progressCounter = startingProgress;
         actState = ActState.Playing;
         StartAct();
+    }
+
+    
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(transform.position.x,
+            transform.position.y, 125, 50), progressCounter + " / " + winThreshold,
+            style);
     }
 }
 
