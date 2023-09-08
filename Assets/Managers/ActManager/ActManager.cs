@@ -69,17 +69,6 @@ public class ActManager : MonoBehaviour
             }
         }
 
-        if (progressCounter <= loseThreshold)
-        {
-            LoseAct();
-            StopAct();
-        }
-        else if (progressCounter >= winThreshold)
-        {
-            WinAct();
-            StopAct();
-        }
-
     }
 
     void StopAct(){
@@ -103,6 +92,17 @@ public class ActManager : MonoBehaviour
             {
                 ;
             }
+        }
+
+        if (progressCounter <= loseThreshold)
+        {
+            LoseAct();
+            StopAct();
+        }
+        else if (progressCounter >= winThreshold)
+        {
+            WinAct();
+            StopAct();
         }
     }
 

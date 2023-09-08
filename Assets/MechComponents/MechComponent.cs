@@ -50,6 +50,20 @@ public abstract class MechComponent : MonoBehaviour
     {
         return mechComponentState;
     }
+
+
+    void OnGUI()
+    {
+        if (GUI.Button(new Rect(transform.position.x, transform.position.y,  125, 50), "Fix"))
+            Fix();
+        if (GUI.Button(new Rect(transform.position.x, transform.position.y + 60,  125, 50),
+                    "Break"))
+            Break();
+        if (GUI.Button(new Rect(transform.position.x, transform.position.y + 120, 125, 50),
+                    "Start"))
+            StartComponent();
+    }
+
 }
 
 
