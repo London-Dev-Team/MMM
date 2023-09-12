@@ -14,7 +14,6 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     private bool onGround;
     public Transform groundCheck;
-    [SerializeField] public float checkRadius;
 
     private float playerSpeed;
     [SerializeField] public float walkSpeed;
@@ -24,6 +23,10 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping;
     private float jumpTimeCounter;
     [SerializeField] public float jumpTime;
+
+    [SerializeField] public float recoveryCheckRadius;
+    [SerializeField] public float verticalRecoverySpeed;
+    [SerializeField] public float horizontalRecoverySpeed;
 
     [SerializeField] float gravityScale;
     [SerializeField] float fallGravityScale;
@@ -35,7 +38,6 @@ public class PlayerMovement : MonoBehaviour
     private float jumpBufferCounter;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -61,10 +63,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     void Update()
     {
         onGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
+        onGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
         // Coyote Time
         if (onGround)
@@ -124,7 +126,6 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
     }
 
     private IEnumerator JumpCooldown()
