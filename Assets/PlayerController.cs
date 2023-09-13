@@ -68,7 +68,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8421850e2cc7d26b6c01194b05cee6817a592a96
         onGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
 
         // Coyote Time
@@ -130,7 +133,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8421850e2cc7d26b6c01194b05cee6817a592a96
     }
 
     private IEnumerator JumpCooldown()
