@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
 
     public Animator animator;
-    
+
     private Rigidbody2D rb;
 
     private float moveInput;
@@ -43,10 +43,11 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+
         // Flip checks go here.
 
     }
+
 
     private void FixedUpdate()
     {
@@ -64,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -98,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
             jumpTimeCounter = jumpTime;
 
             rb.velocity = Vector2.up * jumpSpeed;
+            Debug.Log("WE JUMPED");
 
             jumpBufferCounter = 0f;
             StartCoroutine(JumpCooldown());
