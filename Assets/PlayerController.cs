@@ -14,11 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
     private bool onGround;
     public Transform groundCheck;
-<<<<<<< Updated upstream
-    [SerializeField] public float checkRadius;
-=======
     [SerializeField] public float groundCheckRadius;
->>>>>>> Stashed changes
 
     private float playerSpeed;
     [SerializeField] public float walkSpeed;
@@ -29,14 +25,11 @@ public class PlayerMovement : MonoBehaviour
     private float jumpTimeCounter;
     [SerializeField] public float jumpTime;
 
-<<<<<<< Updated upstream
-=======
     public Transform recoveryCheck;
     [SerializeField] public float recoveryCheckRadius;
     [SerializeField] public float verticalRecoverySpeed;
     [SerializeField] public float horizontalRecoverySpeed;
 
->>>>>>> Stashed changes
     [SerializeField] float gravityScale;
     [SerializeField] float fallGravityScale;
 
@@ -47,7 +40,6 @@ public class PlayerMovement : MonoBehaviour
     private float jumpBufferCounter;
 
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -76,11 +68,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< Updated upstream
-        onGround = Physics2D.OverlapCircle(groundCheck.position, checkRadius, whatIsGround);
-=======
+
         onGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
->>>>>>> Stashed changes
 
         // Coyote Time
         if (onGround)
@@ -140,11 +129,8 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-<<<<<<< Updated upstream
-        Gizmos.DrawWireSphere(groundCheck.position, checkRadius);
-=======
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
->>>>>>> Stashed changes
+
     }
 
     private IEnumerator JumpCooldown()
