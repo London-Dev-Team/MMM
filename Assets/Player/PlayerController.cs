@@ -65,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    // Update is called once per frame
     void Update()
     {
 
@@ -99,6 +98,7 @@ public class PlayerMovement : MonoBehaviour
             jumpTimeCounter = jumpTime;
 
             rb.velocity = Vector2.up * jumpSpeed;
+            Debug.Log("WE JUMPED");
 
             jumpBufferCounter = 0f;
             StartCoroutine(JumpCooldown());
