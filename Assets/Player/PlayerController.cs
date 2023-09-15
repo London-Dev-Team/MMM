@@ -13,8 +13,11 @@ public class PlayerMovement : MonoBehaviour
 
     public LayerMask whatIsGround;
     private bool onGround;
-    public Transform groundCheck;
+    public Transform leftGroundCheck;
+    public Transform rightGroundCheck;
     [SerializeField] public float groundCheckRadius;
+    public Transform upgroundCheck;
+    [SerializeField] public float upgroundCheckRadius;
 
     private float playerSpeed;
     [SerializeField] public float walkSpeed;
@@ -68,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        onGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+        onGround = Physics2D.OverlapCircle(rightGroundCheck.position, groundCheckRadius, whatIsGround);
 
         // Coyote Time
         if (onGround)
@@ -98,14 +101,29 @@ public class PlayerMovement : MonoBehaviour
             jumpTimeCounter = jumpTime;
 
             rb.velocity = Vector2.up * jumpSpeed;
-            Debug.Log("WE JUMPED");
 
             jumpBufferCounter = 0f;
             StartCoroutine(JumpCooldown());
         }
 
+        // Variable Jump // From Untitled Prison Game by Aiden Imbeau
+        if (Input.GetButton("Jump") && isJumping) 
+        { 
+            if (jumpTimeCounter > 0)
+            {
+                rb.velocity = Vector2.up * jumpSpeed;
+                jumpTimeCounter -= Time.deltaTime;
+
+                coyoteTimeCounter = 0f;
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
+
         // No Double Jumps
-        if (Input.GetButtonUp("Jump") && onGround)
+        if (Input.GetButtonUp("Jump"))
         {
             isJumping = false;
         }
@@ -118,18 +136,19 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-
-
     }
 
     private void OnDrawGizmosSelected()
     {
-        if (groundCheck == null)
+        if (rightGroundCheck == null)
         {
             return;
         }
 
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireSphere(rightGroundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireSphere(leftGroundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireCube(upgroundCheck.position, new Vector3(1, 1, 1));
+        
 
     }
 
