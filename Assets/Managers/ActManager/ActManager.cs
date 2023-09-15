@@ -42,6 +42,7 @@ public class ActManager : MonoBehaviour
     [SerializeField]
     private int progressCounter = 0;
 
+    private bool allComponentsStarted = false;
 
     public enum ActState { Playing, Won, Lost };
     [SerializeField]
@@ -85,6 +86,16 @@ public class ActManager : MonoBehaviour
             }
         }
 
+        if (!allComponentsStarted){
+            allComponentsStarted = true;
+            foreach (MechComponent component in componentList)
+            {
+                if (component.mechComponentState != MechComponent.MechComponentState.Running){
+                    allComponentsStarted = false;
+                }
+            }
+        }
+        
     }
 
 
@@ -103,6 +114,10 @@ public class ActManager : MonoBehaviour
     void UpdateProgress()
     {
 
+        if (!allComponentsStarted){
+            return;
+        }
+        
         foreach (MechComponent component in componentList)
         {
             if (component.GetState() == MechComponent.MechComponentState.Running)
