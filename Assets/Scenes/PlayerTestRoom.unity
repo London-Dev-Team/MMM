@@ -389,7 +389,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!1001 &1298836361
+--- !u!1001 &1407000875
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -397,6 +397,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2360058456300436048, guid: 1e210e104c0430e41b454ccae6c4a52b,
+        type: 3}
+      propertyPath: groundCheckWidth
+      value: 0.45
+      objectReference: {fileID: 0}
     - target: {fileID: 3341656664437113428, guid: 1e210e104c0430e41b454ccae6c4a52b,
         type: 3}
       propertyPath: m_Name

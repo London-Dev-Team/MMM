@@ -13,11 +13,13 @@ public class PlayerMovement : MonoBehaviour
 
     public LayerMask whatIsGround;
     private bool onGround;
-    public Transform leftGroundCheck;
-    public Transform rightGroundCheck;
-    [SerializeField] public float groundCheckRadius;
-    public Transform upgroundCheck;
-    [SerializeField] public float upgroundCheckRadius;
+    public Transform groundCheck;
+    [SerializeField] public float groundCheckWidth;
+    [SerializeField] public float groundCheckHeight;
+    public Transform leftUpgroundCheck;
+    public Transform rightUpgroundCheck;
+    [SerializeField] public float upgroundCheckWidth;
+    [SerializeField] public float upgroundCheckHeight;
 
     private float playerSpeed;
     [SerializeField] public float walkSpeed;
@@ -28,8 +30,6 @@ public class PlayerMovement : MonoBehaviour
     private float jumpTimeCounter;
     [SerializeField] public float jumpTime;
 
-    public Transform recoveryCheck;
-    [SerializeField] public float recoveryCheckRadius;
     [SerializeField] public float verticalRecoverySpeed;
     [SerializeField] public float horizontalRecoverySpeed;
 
@@ -70,8 +70,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-
-        onGround = Physics2D.OverlapCircle(rightGroundCheck.position, groundCheckRadius, whatIsGround);
+        onGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckWidth, whatIsGround);
+        //onGround = Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), whatIsGround);
+ 
 
         // Coyote Time
         if (onGround)
@@ -106,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(JumpCooldown());
         }
 
-        // Variable Jump // From Untitled Prison Game by Aiden Imbeau
+        // Variable Jump
         if (Input.GetButton("Jump") && isJumping) 
         { 
             if (jumpTimeCounter > 0)
@@ -123,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // No Double Jumps
+        //if (Input.GetButtonUp("Jump"))
         if (Input.GetButtonUp("Jump"))
         {
             isJumping = false;
@@ -140,15 +142,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        if (rightGroundCheck == null)
+        if (groundCheck == null)
         {
             return;
         }
 
-        Gizmos.DrawWireSphere(rightGroundCheck.position, groundCheckRadius);
-        Gizmos.DrawWireSphere(leftGroundCheck.position, groundCheckRadius);
-        Gizmos.DrawWireCube(upgroundCheck.position, new Vector3(1, 1, 1));
-        
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckWidth);
+        Gizmos.DrawWireCube(leftUpgroundCheck.position, new Vector3(upgroundCheckWidth, upgroundCheckHeight, 1));
+        Gizmos.DrawWireCube(rightUpgroundCheck.position, new Vector3(upgroundCheckWidth, upgroundCheckHeight, 1));
 
     }
 
