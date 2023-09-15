@@ -86,11 +86,13 @@ public class ActManager : MonoBehaviour
             }
         }
 
-        allComponentsStarted = true;
-        foreach (MechComponent component in componentList)
-        {
-            if (component.mechComponentState == MechComponent.MechComponentState.NotStarted){
-                allComponentsStarted = false;
+        if (!allComponentsStarted){
+            allComponentsStarted = true;
+            foreach (MechComponent component in componentList)
+            {
+                if (component.mechComponentState != MechComponent.MechComponentState.Running){
+                    allComponentsStarted = false;
+                }
             }
         }
         
