@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class RatBehavior : MonoBehaviour
 {
@@ -20,24 +21,74 @@ public class RatBehavior : MonoBehaviour
     private Rigidbody2D rb2D;
     private BoxCollider2D boxCollider2D;
 
+    [SerializeField]
+    private float minMoveTime = 1.0f;
+    [SerializeField]
+    private float maxMoveTime = 2.0f;
+    private float moveTimeTarget;
+    private float moveTime = 0.0f;
+    
+    [SerializeField]
+    private float minStopTime = 1.0f;
+    [SerializeField]
+    private float maxStopTime = 2.0f;
+    private float stopTimeTarget;
+    private float stopTime = 0.0f;
+    
     void Start()
     {
         rb2D = GetComponent<Rigidbody2D>();
         boxCollider2D = GetComponent<BoxCollider2D>();
         rb2D.velocity = Vector3.right * speed;
+        SetNewMoveTimeTarget();
+        SetNewStopTimeTarget();
     }
 
+    private void Update()
+    {
+        Debug.Log(movementState);
+        if (movementState == MovementState.Moving){
+            moveTime += Time.deltaTime;
+        } 
+        else if (movementState == MovementState.Stopped){
+            stopTime += Time.deltaTime;
+        }
+
+        if (moveTime > moveTimeTarget){
+            moveTime = 0.0f;
+            movementState = MovementState.Stopped;
+            rb2D.velocity = new Vector2( 0.0f, rb2D.velocity.y);
+            SetNewMoveTimeTarget();
+        }
+
+        if (stopTime > stopTimeTarget){
+            stopTime = 0.0f;
+            movementState = MovementState.Moving;
+            SetNewStopTimeTarget();
+        }
+    }
+
+    void SetNewMoveTimeTarget()
+    {
+        moveTimeTarget = Random.Range(minMoveTime, maxMoveTime);
+    }
+    
+    void SetNewStopTimeTarget()
+    {
+        stopTimeTarget = Random.Range(minStopTime, maxStopTime);
+    }
+    
     void FixedUpdate()
     {
-        rb2D.velocity = new Vector2( (int)dirMoving * speed, rb2D.velocity.y);
+        if (movementState == MovementState.Moving){
+            rb2D.velocity = new Vector2( (int)dirMoving * speed, rb2D.velocity.y);
         
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2( Math.Sign(rb2D.velocity.x) * 1.0f , 0.0f), 0.6f);
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, new Vector2( Math.Sign(rb2D.velocity.x) * 1.0f , 0.0f), 0.6f);
 
-        if (hit.collider != null)
-        {
-            Debug.Log(hit.collider.name);
-            dirMoving = (DirMoving)(-1 * (int) dirMoving);
+            if (hit.collider != null)
+            {
+                dirMoving = (DirMoving)(-1 * (int) dirMoving);
+            }
         }
-        
     }
 }
