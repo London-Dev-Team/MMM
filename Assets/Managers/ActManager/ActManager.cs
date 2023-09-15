@@ -22,10 +22,8 @@ public class ActManager : MonoBehaviour
 
 
     [Header("Components")]
-
+    
     [SerializeField]
-    private List<GameObject> componentObjectList = new List<GameObject>();
-
     private List<MechComponent> componentList = new List<MechComponent>();
 
     [Header("Progress Variables")]
@@ -64,11 +62,6 @@ public class ActManager : MonoBehaviour
         style.normal.textColor = Color.black;
 
         progressCounter = startingProgress;
-        foreach (GameObject componentObj in componentObjectList)
-        {
-            componentList.Add(componentObj.GetComponent<MechComponent>());
-        }
-
     }
 
 
