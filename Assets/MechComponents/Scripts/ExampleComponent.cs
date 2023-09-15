@@ -50,4 +50,16 @@ public class ExampleComponent : MechComponent
         Debug.Log("Reset ExampleComponent!");
     }
 
+    
+    
+    public override void StartSmoking()
+    {
+        Debug.Log("Started Smoking!");
+    }
+    
+    public override void StopSmoking()
+    {
+        Debug.Log("Stopped Smoking!");
+    }
+    
 }
