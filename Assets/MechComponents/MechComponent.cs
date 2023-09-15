@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 
-public abstract class MechComponent : MonoBehaviour
+public abstract class MechComponent : MonoBehaviour, ISerializedActObject
 {
     public enum MechComponentState { NotStarted, Running, Broken };
     [SerializeField]
@@ -56,7 +56,22 @@ public abstract class MechComponent : MonoBehaviour
         return mechComponentState;
     }
 
+    public void SaveProperties()
+    {
+        ChildSaveProperties();
+    }
 
+    public void LoadProperties()
+    {
+        ChildLoadProperties();
+    }
+
+    public abstract void ChildSaveProperties();
+
+
+    public abstract void ChildLoadProperties();
+    
+    
     void OnGUI()
     {
         if (GUI.Button(new Rect(transform.position.x, transform.position.y, 125, 50), "Fix"))

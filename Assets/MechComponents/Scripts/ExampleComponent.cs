@@ -50,4 +50,20 @@ public class ExampleComponent : MechComponent
         Debug.Log("Reset ExampleComponent!");
     }
 
+
+    public override void ChildSaveProperties()
+    {
+        Debug.Log("Saving data specific to ExampleComponent!");
+        // PlayerPrefs.SetString("ComponentProperty", componentProperty);
+        // PlayerPrefs.Save();
+    }
+    
+    
+    public override void ChildLoadProperties()
+    {
+        Debug.Log("Loading data specific to ExampleComponent!");
+        // String loadedComponentProperty = PlayerPrefs.GetString("ComponentProperty");
+        // componentProperty = loadedComponentProperty;
+    }
+    
 }
