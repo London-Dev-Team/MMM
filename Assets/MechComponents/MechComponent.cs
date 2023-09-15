@@ -42,7 +42,9 @@ public abstract class MechComponent : MonoBehaviour
             Debug.LogError("Cannot Fix() this component unless it's Broken!");
             return false;
         }
-
+        
+        SetNewBreakTarget();
+        
         mechComponentState = MechComponentState.Running;
         return true;
     }
@@ -60,7 +62,6 @@ public abstract class MechComponent : MonoBehaviour
         isSmoking = false;
         currentBreakTime = 0.0f;
         StopSmoking();
-        SetNewBreakTarget();
         
         return true;
     }
