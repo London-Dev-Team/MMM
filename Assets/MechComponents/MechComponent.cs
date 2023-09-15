@@ -59,11 +59,23 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
     public void SaveProperties()
     {
         ChildSaveProperties();
+        PlayerPrefs.SetInt("mechComponentState", (int)mechComponentState);
+        PlayerPrefs.Save();
+        Debug.Log("saved mechComponentState " + (MechComponentState)mechComponentState );
     }
 
     public void LoadProperties()
     {
         ChildLoadProperties();
+        if (PlayerPrefs.HasKey("mechComponentState"))
+        {
+            int loadedMechComponentState = PlayerPrefs.GetInt("mechComponentState");
+            mechComponentState = (MechComponentState)loadedMechComponentState;
+        }
+        else{
+            Debug.LogError("There is no unlock save data!");
+            mechComponentState = MechComponentState.NotStarted;
+        }
     }
 
     public abstract void ChildSaveProperties();

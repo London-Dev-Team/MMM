@@ -9,7 +9,9 @@ public class ProgressManager : MonoBehaviour
 {
     [SerializeField]
     private bool[] unlockedActs = { true, false, false, false, false, false };
-
+    
+    [SerializeField]
+    private List<MechComponent> componentList = new List<MechComponent>();
 
     void Start()
     {
@@ -23,7 +25,13 @@ public class ProgressManager : MonoBehaviour
 
     public void SaveProgress()
     {
+        SaveUnlockProgress();
+        SaveActProgress();
+        Debug.Log("Game data saved!");
+    }
 
+    private void SaveUnlockProgress()
+    {
         String sUnlockedActs = "";
 
         foreach (bool value in unlockedActs)
@@ -33,11 +41,24 @@ public class ProgressManager : MonoBehaviour
 
         PlayerPrefs.SetString("UnlockedActs", sUnlockedActs);
         PlayerPrefs.Save();
-        Debug.Log("Game data saved!");
-        Debug.Log(sUnlockedActs);
     }
 
-    public void LoadProgress()
+    private void SaveActProgress()
+    {
+        foreach (MechComponent component in componentList)
+        {
+            component.SaveProperties();
+        }
+    }
+    
+    private void LoadProgress()
+    {
+        LoadUnlockProgress();
+        LoadActProgress();
+        Debug.Log("Game data loaded!");
+    }
+
+    private void LoadUnlockProgress()
     {
         if (PlayerPrefs.HasKey("UnlockedActs"))
         {
@@ -49,15 +70,20 @@ public class ProgressManager : MonoBehaviour
             {
                 unlockedActs[i] = unlockedActsArray[i] == "True";
             }
-
-            Debug.Log("Game data loaded!");
-            Debug.Log(unlockedActs);
         }
         else
-            Debug.LogError("There is no save data!");
+            Debug.LogError("There is no unlock save data!");
     }
-
-    void ResetProgress()
+    
+    private void LoadActProgress()
+    {
+        foreach (MechComponent component in componentList)
+        {
+            component.LoadProperties();
+        }
+    }
+    
+    void ResetAllProgress()
     {
         PlayerPrefs.DeleteAll();
         unlockedActs = new bool[6] { true, false, false, false, false, false };
@@ -90,7 +116,7 @@ public class ProgressManager : MonoBehaviour
             LoadProgress();
         if (GUI.Button(new Rect(transform.position.x, transform.position.y + 120, 125, 50),
                     "Reset Save Data"))
-            ResetProgress();
+            ResetAllProgress();
     }
 
 }
