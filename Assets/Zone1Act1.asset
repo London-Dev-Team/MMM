@@ -16,4 +16,4 @@ MonoBehaviour:
   LoseThreshold: 0
   StartingProgress: 50
   ActIndex: 0
-  TickTime: 1
+  TickTime: 0.1

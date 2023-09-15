@@ -30,7 +30,7 @@ public class ActManager : MonoBehaviour
 
     [Header("Progress Variables")] 
     
-    [SerializeField]
+    [SerializeField] // With Odin Inspector we could use InlineProperty for this
     private ActProperties actProperties;
     
     private int winThreshold;
