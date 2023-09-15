@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Random = UnityEngine.Random;
 
 
 public abstract class MechComponent : MonoBehaviour
@@ -21,7 +23,11 @@ public abstract class MechComponent : MonoBehaviour
     [SerializeField]
     private float smokingTimeThreshold = 1.0f; // The last 1 second is when to start smoking.
     private bool isSmoking = false;
-        
+
+    public void Start()
+    {
+        SetNewBreakTarget();
+    }
 
     public virtual bool StartComponent()
     {
