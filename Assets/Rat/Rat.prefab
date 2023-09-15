@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4886179740765181633}
   - component: {fileID: 6939231277883886970}
   - component: {fileID: 8003038739947435387}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Rat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 2900333970938992618}
   - component: {fileID: 570444198922633372}
   - component: {fileID: 5202033312948855848}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
