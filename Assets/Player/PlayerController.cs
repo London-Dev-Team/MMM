@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,18 +9,23 @@ public class PlayerMovement : MonoBehaviour
     public Animator animator;
 
     private Rigidbody2D rb;
-
+    private BoxCollider2D boxCol;
     private float moveInput;
 
     public LayerMask whatIsGround;
-    private bool onGround;
-    public Transform groundCheck;
-    [SerializeField] public float groundCheckWidth;
-    [SerializeField] public float groundCheckHeight;
+
+    private bool onLeftWall;
+    private bool onRightWall;
+    private bool onWall;
+    private bool onLeftRecovery;
+    private bool onRightRecovery;
+    private bool onRecovery;
+    private bool canLedgeGrab;
+    [SerializeField] public float groundCheckWH;
     public Transform leftUpgroundCheck;
     public Transform rightUpgroundCheck;
-    [SerializeField] public float upgroundCheckWidth;
-    [SerializeField] public float upgroundCheckHeight;
+    public Transform leftWallCheck;
+    public Transform rightWallCheck;
 
     private float playerSpeed;
     [SerializeField] public float walkSpeed;
@@ -29,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping;
     private float jumpTimeCounter;
     [SerializeField] public float jumpTime;
+
+    private bool isFalling;
 
     [SerializeField] public float verticalRecoverySpeed;
     [SerializeField] public float horizontalRecoverySpeed;
@@ -46,6 +54,9 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        boxCol = GetComponent<BoxCollider2D>();
+
+        canLedgeGrab = false;
 
         // Flip checks go here.
 
@@ -54,6 +65,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+
 
         // Running
         playerSpeed = walkSpeed;
@@ -65,17 +77,44 @@ public class PlayerMovement : MonoBehaviour
         moveInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector3(moveInput * playerSpeed, rb.velocity.y, 0);
 
+        // Falling
+        isFalling = rb.velocity.y < 0 ? true : false;
+        
+        // Fall from Ledge
+
+
+
+
     }
 
 
     void Update()
     {
-        onGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckWidth, whatIsGround);
-        //onGround = Physics2D.OverlapBox(groundCheck.position, new Vector2(groundCheckWidth, groundCheckHeight), whatIsGround);
- 
+
+        // Wall Checks
+        /*
+        if ((Physics2D.OverlapBox(leftWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround)) 
+            || (Physics2D.OverlapBox(rightWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround)))
+        {
+            onWall = true;
+        }
+
+        if ((Physics2D.OverlapBox(leftUpgroundCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround)) 
+            || (Physics2D.OverlapBox(rightWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround)))
+        {
+            onRecovery = true;
+        }
+        */
+
+        
+        onLeftWall = Physics2D.OverlapBox(leftWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
+        onRightWall = Physics2D.OverlapBox(rightWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
+        onLeftRecovery = Physics2D.OverlapBox(leftUpgroundCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
+        onRightRecovery = Physics2D.OverlapBox(rightUpgroundCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
+        
 
         // Coyote Time
-        if (onGround)
+        if (OnGround())
         {
             coyoteTimeCounter = coyoteTime;
         }
@@ -124,7 +163,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // No Double Jumps
-        //if (Input.GetButtonUp("Jump"))
         if (Input.GetButtonUp("Jump"))
         {
             isJumping = false;
@@ -137,19 +175,48 @@ public class PlayerMovement : MonoBehaviour
             rb.gravityScale = gravityScale;
         }
 
+        // Recovery
+        if (!OnGround())  // If not no wall, but on corner.
+        {
+            
+            canLedgeGrab = true;
+
+            //if ((onWall && !onRecovery))
+            if (((!onLeftWall && onLeftRecovery) || (!onRightWall && onRightRecovery)) && !OnGround() && canLedgeGrab)
+            {
+                Debug.Log("RECOVER");
+                rb.velocity = new Vector2(rb.velocity.x * horizontalRecoverySpeed, rb.velocity.y + verticalRecoverySpeed);
+
+            }
+
+            StartCoroutine(LedgeCooldown());
+
+        }
+
 
     }
 
+    private bool OnGround()
+    {
+
+        RaycastHit2D groundHit = Physics2D.BoxCast(boxCol.bounds.center, boxCol.bounds.size, 0f, Vector2.down, groundCheckWH, whatIsGround);
+        // Debug.Log(raycastHit.collider);
+        return groundHit.collider != null;
+    }
+
+
     private void OnDrawGizmosSelected()
     {
-        if (groundCheck == null)
+        if (leftUpgroundCheck == null)
         {
             return;
         }
 
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckWidth);
-        Gizmos.DrawWireCube(leftUpgroundCheck.position, new Vector3(upgroundCheckWidth, upgroundCheckHeight, 1));
-        Gizmos.DrawWireCube(rightUpgroundCheck.position, new Vector3(upgroundCheckWidth, upgroundCheckHeight, 1));
+        //Gizmos.DrawWireSphere(groundCheck.position, groundCheckWidth);
+        Gizmos.DrawWireCube(leftWallCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
+        Gizmos.DrawWireCube(rightWallCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
+        Gizmos.DrawWireCube(leftUpgroundCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
+        Gizmos.DrawWireCube(rightUpgroundCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
 
     }
 
@@ -157,5 +224,12 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(0.4f);
         isJumping = false;
+    }
+
+    private IEnumerator LedgeCooldown()
+    {
+        yield return new WaitForSeconds(0.25f);
+        canLedgeGrab = false;
+
     }
 }
