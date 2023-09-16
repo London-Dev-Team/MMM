@@ -16,11 +16,9 @@ public class PlayerMovement : MonoBehaviour
 
     private bool onLeftWall;
     private bool onRightWall;
-    private bool onWall;
     private bool onLeftRecovery;
     private bool onRightRecovery;
-    private bool onRecovery;
-    private bool canLedgeGrab;
+    private bool canLedgeGrab = true;
     [SerializeField] public float groundCheckWH;
     public Transform leftUpgroundCheck;
     public Transform rightUpgroundCheck;
@@ -36,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
     private float jumpTimeCounter;
     [SerializeField] public float jumpTime;
 
+    private bool isRunning;
+    private bool isWalking;
     private bool isFalling;
 
     [SerializeField] public float upwardsJumpVerticalRecoverySpeed;
@@ -56,8 +56,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
 
-        canLedgeGrab = true;
-
         // Flip checks go here.
 
     }
@@ -66,7 +64,6 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
-
         // Running
         playerSpeed = walkSpeed;
         if (Input.GetButton("Run"))
@@ -74,38 +71,22 @@ public class PlayerMovement : MonoBehaviour
             playerSpeed = runSpeed;
         }
 
+
+        isRunning = false;
+
+        // Horizontal Move
         moveInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector3(moveInput * playerSpeed, rb.velocity.y, 0);
 
+
         // Falling
         isFalling = rb.velocity.y < 0 ? true : false;
-        
-        // Fall from Ledge
-
-
-
 
     }
 
 
     void Update()
     {
-
-        // Wall Checks
-        /*
-        if ((Physics2D.OverlapBox(leftWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround)) 
-            || (Physics2D.OverlapBox(rightWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround)))
-        {
-            onWall = true;
-        }
-
-        if ((Physics2D.OverlapBox(leftUpgroundCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround)) 
-            || (Physics2D.OverlapBox(rightWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround)))
-        {
-            onRecovery = true;
-        }
-        */
-
 
         onLeftWall = Physics2D.OverlapBox(leftWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
         onRightWall = Physics2D.OverlapBox(rightWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
@@ -132,7 +113,6 @@ public class PlayerMovement : MonoBehaviour
         {
             jumpBufferCounter -= Time.deltaTime;
         }
-
 
         // Normal Jump
         if (coyoteTimeCounter > 0f && jumpBufferCounter > 0f && !isJumping && Input.GetButtonDown("Jump"))
@@ -187,7 +167,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("UP RECOVER");
                 if (isFalling)
                 {
-                    rb.velocity = new Vector2(rb.velocity.x * downwardsJumpVerticalRecoverySpeed, rb.velocity.y + downwardsJumpVerticalRecoverySpeed);
+                    rb.velocity = new Vector2(rb.velocity.x * downwardsJumpVerticalRecoverySpeed, rb.velocity.y + downwardsJumpVerticalRecoverySpeed); // PATCH
                 }
                 else
                 {
@@ -204,7 +184,6 @@ public class PlayerMovement : MonoBehaviour
 
     private bool OnGround()
     {
-
         RaycastHit2D groundHit = Physics2D.BoxCast(boxCol.bounds.center, boxCol.bounds.size, 0f, Vector2.down, groundCheckWH, whatIsGround);
         // Debug.Log(raycastHit.collider);
         return groundHit.collider != null;
@@ -223,7 +202,6 @@ public class PlayerMovement : MonoBehaviour
         Gizmos.DrawWireCube(rightWallCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
         Gizmos.DrawWireCube(leftUpgroundCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
         Gizmos.DrawWireCube(rightUpgroundCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
-
     }
 
     private IEnumerator JumpCooldown()
@@ -238,6 +216,5 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         Debug.Log("DONE");
         canLedgeGrab = true;
-
     }
 }
