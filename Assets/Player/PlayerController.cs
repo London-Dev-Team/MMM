@@ -38,8 +38,8 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isFalling;
 
-    [SerializeField] public float verticalRecoverySpeed;
-    [SerializeField] public float horizontalRecoverySpeed;
+    [SerializeField] public float upwardsJumpVerticalRecoverySpeed;
+    [SerializeField] public float downwardsJumpVerticalRecoverySpeed;
 
     [SerializeField] float gravityScale;
     [SerializeField] float fallGravityScale;
@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
 
-        canLedgeGrab = false;
+        canLedgeGrab = true;
 
         // Flip checks go here.
 
@@ -106,12 +106,12 @@ public class PlayerMovement : MonoBehaviour
         }
         */
 
-        
+
         onLeftWall = Physics2D.OverlapBox(leftWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
         onRightWall = Physics2D.OverlapBox(rightWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
         onLeftRecovery = Physics2D.OverlapBox(leftUpgroundCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
         onRightRecovery = Physics2D.OverlapBox(rightUpgroundCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
-        
+
 
         // Coyote Time
         if (OnGround())
@@ -147,8 +147,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // Variable Jump
-        if (Input.GetButton("Jump") && isJumping) 
-        { 
+        if (Input.GetButton("Jump") && isJumping)
+        {
             if (jumpTimeCounter > 0)
             {
                 rb.velocity = Vector2.up * jumpSpeed;
@@ -178,21 +178,27 @@ public class PlayerMovement : MonoBehaviour
         // Recovery
         if (!OnGround())  // If not no wall, but on corner.
         {
-            
-            canLedgeGrab = true;
+
+            Debug.Log("CAN NOW LEDGE");
 
             //if ((onWall && !onRecovery))
-            if (((!onLeftWall && onLeftRecovery) || (!onRightWall && onRightRecovery)) && !OnGround() && canLedgeGrab)
+            if (((!onLeftWall && onLeftRecovery) || (!onRightWall && onRightRecovery)) && canLedgeGrab)
             {
-                Debug.Log("RECOVER");
-                rb.velocity = new Vector2(rb.velocity.x * horizontalRecoverySpeed, rb.velocity.y + verticalRecoverySpeed);
+                Debug.Log("UP RECOVER");
+                if (isFalling)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x * downwardsJumpVerticalRecoverySpeed, rb.velocity.y + downwardsJumpVerticalRecoverySpeed);
+                }
+                else
+                {
+                    rb.velocity = new Vector2(rb.velocity.x * downwardsJumpVerticalRecoverySpeed, rb.velocity.y + upwardsJumpVerticalRecoverySpeed);
+                }
+
+                StartCoroutine(LedgeCooldown());
 
             }
 
-            StartCoroutine(LedgeCooldown());
-
         }
-
 
     }
 
@@ -223,13 +229,15 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator JumpCooldown()
     {
         yield return new WaitForSeconds(0.4f);
-        isJumping = false;
+        //isJumping = false;
     }
 
     private IEnumerator LedgeCooldown()
     {
-        yield return new WaitForSeconds(0.25f);
         canLedgeGrab = false;
+        yield return new WaitForSeconds(0.25f);
+        Debug.Log("DONE");
+        canLedgeGrab = true;
 
     }
 }

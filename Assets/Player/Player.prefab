@@ -146,8 +146,8 @@ MonoBehaviour:
   runSpeed: 12
   jumpSpeed: 16
   jumpTime: 0.2
-  verticalRecoverySpeed: 1
-  horizontalRecoverySpeed: 0.75
+  upwardsJumpVerticalRecoverySpeed: 2
+  downwardsJumpVerticalRecoverySpeed: 34
   gravityScale: 3.5
   fallGravityScale: 6.75
   coyoteTime: 0.2
