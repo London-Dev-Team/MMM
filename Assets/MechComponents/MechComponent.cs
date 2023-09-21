@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using Random = UnityEngine.Random;
 
 
 public abstract class MechComponent : MonoBehaviour, ISerializedActObject
@@ -9,6 +11,23 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
     public enum MechComponentState { NotStarted, Running, Broken };
     [SerializeField]
     public MechComponentState mechComponentState = MechComponentState.NotStarted;
+    
+    [SerializeField]
+    private float currentBreakTime = 0.0f;
+    [SerializeField]
+    private float minBreakTime = 1.0f;
+    [SerializeField]
+    private float maxBreakTime = 2.0f;
+    private float targetBreakTime = 2.0f;
+    
+    [SerializeField]
+    private float smokingTimeThreshold = 1.0f; // The last 1 second is when to start smoking.
+    private bool isSmoking = false;
+
+    public void Start()
+    {
+        SetNewBreakTarget();
+    }
 
     public virtual bool StartComponent()
     {
@@ -21,6 +40,7 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
         return true;
     }
 
+    
     public virtual bool Fix()
     {
         if (mechComponentState != MechComponentState.Broken)
@@ -28,7 +48,9 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
             Debug.LogError("Cannot Fix() this component unless it's Broken!");
             return false;
         }
-
+        
+        SetNewBreakTarget();
+        
         mechComponentState = MechComponentState.Running;
         return true;
     }
@@ -42,15 +64,53 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
             return false;
         }
         mechComponentState = MechComponentState.Broken;
+        
+        isSmoking = false;
+        currentBreakTime = 0.0f;
+        StopSmoking();
+        
         return true;
     }
 
+    
     public virtual void ResetComponent()
     {
         mechComponentState = MechComponentState.NotStarted;
     }
+    
+    
+    public virtual void Update()
+    {
+        if (mechComponentState == MechComponentState.Running){
+            UpdateBreakTimer();
+        }
+    }
 
+    public abstract void StartSmoking();
+    public abstract void StopSmoking();
+    
+    private void UpdateBreakTimer()
+    {
+        currentBreakTime += Time.deltaTime;
 
+        if ( currentBreakTime > (targetBreakTime - smokingTimeThreshold) ){
+            if (!isSmoking){
+                StartSmoking();
+            }
+            isSmoking = true;
+        }
+        if ( currentBreakTime < targetBreakTime ){
+            return;
+        }
+
+        Break();
+    }
+
+    private void SetNewBreakTarget()
+    {
+        targetBreakTime = Random.Range(minBreakTime, maxBreakTime);
+    }
+    
     public MechComponentState GetState()
     {
         return mechComponentState;

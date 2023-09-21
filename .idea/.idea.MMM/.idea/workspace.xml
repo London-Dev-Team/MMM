@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f6a4754d-24e7-40bc-8250-a11e8e09b2f4" name="Changes" comment="" />
+    <list default="true" id="f6a4754d-24e7-40bc-8250-a11e8e09b2f4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MMM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MMM/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Physics2DSettings.asset" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/099b34bda0694abe92051a650b8f9fc916f000/27/b81bee0e/Vector3.cs" root0="SKIP_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2VQw75TkXOWtslvjlobVFJ75IJI" />
+  <component name="ProjectId" id="2VRc8d7iFsyjb8V5XgfCuwJ1XEV" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -22,7 +29,6 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="rider.run.widget.enabled.cache" value="false" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
@@ -51,11 +57,11 @@
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="f6a4754d-24e7-40bc-8250-a11e8e09b2f4" name="Changes" comment="" />
-      <created>1694781446104</created>
+      <created>1694802179157</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1694781446104</updated>
-      <workItem from="1694781451338" duration="1854000" />
+      <updated>1694802179157</updated>
+      <workItem from="1694802211089" duration="2771000" />
     </task>
     <servers />
   </component>

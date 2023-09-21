@@ -64,6 +64,16 @@ public class ExampleComponent : MechComponent
         Debug.Log("Loading data specific to ExampleComponent!");
         // String loadedComponentProperty = PlayerPrefs.GetString("ComponentProperty");
         // componentProperty = loadedComponentProperty;
+    
+    
+    public override void StartSmoking()
+    {
+        Debug.Log("Started Smoking!");
+    }
+    
+    public override void StopSmoking()
+    {
+        Debug.Log("Stopped Smoking!");
     }
     
 }
