@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UIElements;
 
-public class ActManager : MonoBehaviour
+public class ActManager : MonoBehaviour, ISerializedActObject
 {
 
 
@@ -191,8 +191,33 @@ public class ActManager : MonoBehaviour
         actState = ActState.Playing;
         StartAct();
     }
-
     
+    public void SaveProperties()
+    {
+        PlayerPrefs.SetInt("progressCounter", progressCounter);
+        PlayerPrefs.SetInt("actState", (int)actState);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadProperties()
+    {
+        
+        if (PlayerPrefs.HasKey("progressCounter"))
+        {
+            int loadedProgressCounter = PlayerPrefs.GetInt("progressCounter");
+            progressCounter = loadedProgressCounter;
+            int loadedActState = PlayerPrefs.GetInt("actState");
+            actState = (ActState)loadedActState;
+        }
+        else{
+            Debug.LogError("There is no progressCounter save data!");
+        }
+    }
+
+    public  List<MechComponent> GetComponentList()
+    {
+        return componentList;
+    }
 
     void OnGUI()
     {

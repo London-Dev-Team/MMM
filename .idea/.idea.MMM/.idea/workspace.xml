@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f6a4754d-24e7-40bc-8250-a11e8e09b2f4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/MechComponents/Scripts/ExampleComponent.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/MechComponents/Scripts/ExampleComponent.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MMM/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MMM/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Managers/ActManager/ActManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Managers/ActManager/ActManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Managers/ProgressManager/ProgressManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Managers/ProgressManager/ProgressManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/ActTest.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/ActTest.unity" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +63,7 @@
       <option name="presentableId" value="Default" />
       <updated>1694802179157</updated>
       <workItem from="1694802211089" duration="2771000" />
-      <workItem from="1695332170767" duration="436000" />
+      <workItem from="1695332170767" duration="1630000" />
     </task>
     <servers />
   </component>

@@ -8,13 +8,16 @@ using UnityEngine;
 public class ProgressManager : MonoBehaviour
 {
     [SerializeField]
-    private bool[] unlockedActs = { true, false, false, false, false, false };
+    private ActManager actManager;
     
     [SerializeField]
-    private List<MechComponent> componentList = new List<MechComponent>();
+    private bool[] unlockedActs = { true, false, false, false, false, false };
+    
+    private List<MechComponent> componentList;
 
     void Start()
     {
+        componentList = actManager.GetComponentList();
         LoadProgress();
     }
 
@@ -49,13 +52,14 @@ public class ProgressManager : MonoBehaviour
         {
             component.SaveProperties();
         }
+        actManager.SaveProperties();
     }
     
     private void LoadProgress()
     {
         LoadUnlockProgress();
         LoadActProgress();
-        Debug.Log("Game data loaded!");
+        actManager.LoadProperties();
     }
 
     private void LoadUnlockProgress()
