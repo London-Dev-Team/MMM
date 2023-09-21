@@ -154,6 +154,8 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
         if (GUI.Button(new Rect(transform.position.x, transform.position.y + 120, 125, 50),
                     "Start"))
             StartComponent();
+        
+        GUI.Label(new Rect(transform.position.x + 40,transform.position.y + 180, 125, 50), mechComponentState.ToString());
     }
 
 }

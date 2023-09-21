@@ -185,6 +185,8 @@ public class ActManager : MonoBehaviour
         {
             component.ResetComponent();
         }
+
+        allComponentsStarted = false;
         progressCounter = startingProgress;
         actState = ActState.Playing;
         StartAct();
