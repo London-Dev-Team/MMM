@@ -28,19 +28,17 @@ public class ActManager : MonoBehaviour
 
     private List<MechComponent> componentList = new List<MechComponent>();
 
-    [Header("Progress Variables")]
-
+    [Header("Progress Variables")] 
+    
+    [SerializeField] // With Odin Inspector we could use InlineProperty for this
+    private ActProperties actProperties;
+    
+    private int winThreshold;
+    private int loseThreshold;
+    private int startingProgress;
+    
     [SerializeField]
-    private int winThreshold = 100;
-
-    [SerializeField]
-    private int loseThreshold = 0;
-
-    [SerializeField]
-    private int startingProgress = 50;
-
-    [SerializeField]
-    private int progressCounter = 0;
+    private int progressCounter;
 
     private bool allComponentsStarted = false;
 
@@ -48,19 +46,23 @@ public class ActManager : MonoBehaviour
     [SerializeField]
     public ActState actState = ActState.Playing;
 
-    [Range(0, 5)]
-    [SerializeField]
-    private int actIndex = 0;
+    private int actIndex;
 
 
     private float updateTimer = 0.0f;
-    private float tickTime = 1.0f;
+    private float tickTime;
 
 
     GUIStyle style;
 
     void Start()
     {
+        winThreshold = actProperties.WinThreshold;
+        loseThreshold = actProperties.LoseThreshold;
+        startingProgress = actProperties.StartingProgress;
+        tickTime = actProperties.TickTime;
+        actIndex = actProperties.ActIndex;
+        
         style = new GUIStyle();
         style.normal.textColor = Color.black;
 
