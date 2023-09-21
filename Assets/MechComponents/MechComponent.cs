@@ -120,8 +120,10 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
     {
         ChildSaveProperties();
         PlayerPrefs.SetInt("mechComponentState", (int)mechComponentState);
+        PlayerPrefs.SetFloat("currentBreakTime", currentBreakTime);
+        PlayerPrefs.SetFloat("targetBreakTime", targetBreakTime);
         PlayerPrefs.Save();
-        Debug.Log("saved mechComponentState " + (MechComponentState)mechComponentState );
+        Debug.Log("saved mechComponentState " + mechComponentState );
     }
 
     public void LoadProperties()
@@ -131,6 +133,11 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
         {
             int loadedMechComponentState = PlayerPrefs.GetInt("mechComponentState");
             mechComponentState = (MechComponentState)loadedMechComponentState;
+            float loadedCurrentBreakTime = PlayerPrefs.GetFloat("currentBreakTime");
+            currentBreakTime = loadedCurrentBreakTime;
+            float loadedTargetBreakTime = PlayerPrefs.GetFloat("targetBreakTime");
+            targetBreakTime = loadedTargetBreakTime;
+
         }
         else{
             Debug.LogError("There is no unlock save data!");
