@@ -109,6 +109,9 @@ public class RatBehavior : MonoBehaviour
     {
         stopTime = 0.0f;
         movementState = MovementState.Moving;
+        if ( (int)Random.Range(0.0f, 2.0f) == 1){
+            dirMoving = (DirMoving)(-1 * (int) dirMoving);
+        } 
         SetNewStopTimeTarget();
     }
     
@@ -134,7 +137,11 @@ public class RatBehavior : MonoBehaviour
         
         rb2D.velocity = new Vector2( (int)dirMoving * speed, rb2D.velocity.y);
     
-        var hit = Physics2D.Raycast(transform.position, new Vector2( Math.Sign(rb2D.velocity.x) * 1.0f , 0.0f), 0.6f);
+    
+        int layerMask = 1 << LayerMask.NameToLayer("Rat");
+        layerMask = ~layerMask;
+    
+        var hit = Physics2D.Raycast(transform.position, new Vector2( Math.Sign(rb2D.velocity.x) * 1.0f , 0.0f), 0.6f, layerMask);
 
         if (hit.collider != null)
         {
