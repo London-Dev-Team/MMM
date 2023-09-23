@@ -10,36 +10,36 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private BoxCollider2D boxCol;
-    private float moveInput;
 
     public LayerMask whatIsGround;
 
+    private float moveInput;
+
+    [SerializeField] public float walkSpeed;
+    [SerializeField] public float runSpeed;
+    private float playerSpeed;
+
+    [SerializeField] public float jumpSpeed;
+    [SerializeField] public float jumpTime;
+    private float jumpTimeCounter;
+    private bool isJumping;
+
+    private bool canRun;
+    private bool isFalling;
+
+    [SerializeField] public float wallCheckWH;
+    [SerializeField] public float upwardsLedgeScalar;
+    [SerializeField] public float downwardsLedgeScalar;
+    [SerializeField] public float downwardsLedgeThreshold;
     private bool onLeftWall;
     private bool onRightWall;
-    private bool onLeftRecovery;
-    private bool onRightRecovery;
+    private bool onLeftLedge;
+    private bool onRightLedge;
     private bool canLedgeGrab = true;
-    [SerializeField] public float groundCheckWH;
     public Transform leftUpgroundCheck;
     public Transform rightUpgroundCheck;
     public Transform leftWallCheck;
     public Transform rightWallCheck;
-
-    private float playerSpeed;
-    [SerializeField] public float walkSpeed;
-    [SerializeField] public float runSpeed;
-
-    [SerializeField] public float jumpSpeed;
-    private bool isJumping;
-    private float jumpTimeCounter;
-    [SerializeField] public float jumpTime;
-
-    private bool canRun;
-    private bool isWalking;
-    private bool isFalling;
-
-    [SerializeField] public float upwardsLedgeScalar;
-    [SerializeField] public float downwardsLedgeScalar;
 
     [SerializeField] float gravityScale;
     [SerializeField] float fallGravityScale;
@@ -53,10 +53,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
-
-        // Flip checks go here.
 
     }
 
@@ -64,9 +63,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
-        Debug.Log(playerSpeed);
-
-        // Running
+        // Walk / Run Speeds
         playerSpeed = walkSpeed;
         if (OnGround())
         {
@@ -88,7 +85,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // Horizontal Move
+
+        // Horizontal Movement
         moveInput = Input.GetAxisRaw("Horizontal");
         rb.velocity = new Vector3(moveInput * playerSpeed, rb.velocity.y, 0);
 
@@ -102,10 +100,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
 
-        onLeftWall = Physics2D.OverlapBox(leftWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
-        onRightWall = Physics2D.OverlapBox(rightWallCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
-        onLeftRecovery = Physics2D.OverlapBox(leftUpgroundCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
-        onRightRecovery = Physics2D.OverlapBox(rightUpgroundCheck.position, new Vector2(groundCheckWH, groundCheckWH), whatIsGround);
+        onLeftWall = Physics2D.OverlapBox(leftWallCheck.position, new Vector2(wallCheckWH, wallCheckWH), whatIsGround);
+        onRightWall = Physics2D.OverlapBox(rightWallCheck.position, new Vector2(wallCheckWH, wallCheckWH), whatIsGround);
+        onLeftLedge = Physics2D.OverlapBox(leftUpgroundCheck.position, new Vector2(wallCheckWH, wallCheckWH), whatIsGround);
+        onRightLedge = Physics2D.OverlapBox(rightUpgroundCheck.position, new Vector2(wallCheckWH, wallCheckWH), whatIsGround);
 
 
         // Coyote Time
@@ -162,31 +160,31 @@ public class PlayerMovement : MonoBehaviour
             isJumping = false;
         }
 
-        // WEIGHTED CURVE
+        // Weighted Jumps 
         rb.gravityScale = fallGravityScale; // Fall gravity should be on incase player falls off an edge.
         if (rb.velocity.y > 0 && isJumping)
         {
             rb.gravityScale = gravityScale;
         }
 
-        // Recovery
+        // Recovery / Ledge Grab
         if (!OnGround())  // If not no wall, but on corner.
         {
-            if (((!onLeftWall && onLeftRecovery) || (!onRightWall && onRightRecovery)) && canLedgeGrab)
+
+            if (((!onLeftWall && onLeftLedge) || (!onRightWall && onRightLedge)) && canLedgeGrab)
             {
-                //Debug.Log("UP RECOVER");
-                if (isFalling && rb.velocity.y < -13) // Player Falling drastically.
+
+                if (isFalling && rb.velocity.y < -downwardsLedgeThreshold) // Player Falling drastically.
                 {
-                    rb.velocity = new Vector2(rb.velocity.x * downwardsLedgeScalar, rb.velocity.y + (rb.velocity.y * (-(downwardsLedgeScalar)))); // Upwards Motion
-                    Debug.Log("HAPPY LIFE");
+                    rb.velocity = new Vector2(rb.velocity.x * downwardsLedgeScalar, rb.velocity.y + (rb.velocity.y * (-(downwardsLedgeScalar))));
                 }
-                else if (isFalling) {
+                else if (isFalling) 
+                {
                     rb.velocity = new Vector2(rb.velocity.x * downwardsLedgeScalar, rb.velocity.y + (rb.velocity.y * (-(downwardsLedgeScalar)) * downwardsLedgeScalar));
-                    Debug.Log("HERE");
                 }
                 else
                 {
-                    rb.velocity = new Vector2(rb.velocity.x * downwardsLedgeScalar, rb.velocity.y + upwardsLedgeScalar); // add Velocity 1.
+                    rb.velocity = new Vector2(rb.velocity.x * downwardsLedgeScalar, rb.velocity.y + upwardsLedgeScalar); // NOTE: Add Velocity of 1.
                 }
 
                 StartCoroutine(LedgeCooldown());
@@ -199,8 +197,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool OnGround()
     {
-        RaycastHit2D groundHit = Physics2D.BoxCast(boxCol.bounds.center, boxCol.bounds.size, 0f, Vector2.down, groundCheckWH, whatIsGround);
-        // Debug.Log(raycastHit.collider);
+        RaycastHit2D groundHit = Physics2D.BoxCast(boxCol.bounds.center, boxCol.bounds.size, 0f, Vector2.down, wallCheckWH, whatIsGround);
         return groundHit.collider != null;
     }
 
@@ -213,30 +210,28 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Gizmos.DrawWireSphere(groundCheck.position, groundCheckWidth);
-        Gizmos.DrawWireCube(leftWallCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
-        Gizmos.DrawWireCube(rightWallCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
-        Gizmos.DrawWireCube(leftUpgroundCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
-        Gizmos.DrawWireCube(rightUpgroundCheck.position, new Vector3(groundCheckWH, groundCheckWH, 1));
+        Gizmos.DrawWireCube(leftWallCheck.position, new Vector3(wallCheckWH, wallCheckWH, 1));
+        Gizmos.DrawWireCube(rightWallCheck.position, new Vector3(wallCheckWH, wallCheckWH, 1));
+        Gizmos.DrawWireCube(leftUpgroundCheck.position, new Vector3(wallCheckWH, wallCheckWH, 1));
+        Gizmos.DrawWireCube(rightUpgroundCheck.position, new Vector3(wallCheckWH, wallCheckWH, 1));
+    }
+    private IEnumerator RunGradient()
+    {
+        playerSpeed = walkSpeed + ((runSpeed - walkSpeed) / 2);
+        yield return new WaitForSeconds(0.2f);
+        playerSpeed = runSpeed;
     }
 
     private IEnumerator JumpCooldown()
     {
         yield return new WaitForSeconds(0.4f);
-        //isJumping = false;
+        // isJumping = false;
     }
 
     private IEnumerator LedgeCooldown()
     {
         canLedgeGrab = false;
         yield return new WaitForSeconds(0.5f);
-        Debug.Log("DONE");
         canLedgeGrab = true;
-    }
-
-    private IEnumerator RunGradient()
-    {
-        playerSpeed = walkSpeed + ((runSpeed - walkSpeed) / 2);
-        yield return new WaitForSeconds(0.2f);
-        playerSpeed = runSpeed;
     }
 }

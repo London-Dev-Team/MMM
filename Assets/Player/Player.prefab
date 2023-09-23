@@ -137,17 +137,18 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
-  groundCheckWH: 0.1
-  leftUpgroundCheck: {fileID: 2599415818488966189}
-  rightUpgroundCheck: {fileID: 2275942651025139083}
-  leftWallCheck: {fileID: 9177362499498945795}
-  rightWallCheck: {fileID: 6986561118100166131}
   walkSpeed: 6
   runSpeed: 12
   jumpSpeed: 16
   jumpTime: 0.2
+  wallCheckWH: 0.15
   upwardsLedgeScalar: 1
   downwardsLedgeScalar: 1.45
+  downwardsLedgeThreshold: 13
+  leftUpgroundCheck: {fileID: 2599415818488966189}
+  rightUpgroundCheck: {fileID: 2275942651025139083}
+  leftWallCheck: {fileID: 9177362499498945795}
+  rightWallCheck: {fileID: 6986561118100166131}
   gravityScale: 3.5
   fallGravityScale: 6.75
   coyoteTime: 0.2
