@@ -778,6 +778,12 @@ PrefabInstance:
       objectReference: {fileID: 2049687218}
     - target: {fileID: 6623967789535311048, guid: 6924c736d8e032c44a7539aa62ec2167,
         type: 3}
+      propertyPath: progressAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d8b91c0814bd1c746b7c6ee73b97761a,
+        type: 2}
+    - target: {fileID: 6623967789535311048, guid: 6924c736d8e032c44a7539aa62ec2167,
+        type: 3}
       propertyPath: componentList.Array.size
       value: 2
       objectReference: {fileID: 0}

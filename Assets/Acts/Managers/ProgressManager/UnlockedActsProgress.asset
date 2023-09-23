@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2588c3b90b8fed54c88e919b55c25c0b, type: 3}
   m_Name: UnlockedActsProgress
   m_EditorClassIdentifier: 
+  unlockedActs: 010000000000
