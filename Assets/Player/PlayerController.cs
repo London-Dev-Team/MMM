@@ -34,12 +34,12 @@ public class PlayerMovement : MonoBehaviour
     private float jumpTimeCounter;
     [SerializeField] public float jumpTime;
 
-    private bool isRunning;
+    private bool canRun;
     private bool isWalking;
     private bool isFalling;
 
-    [SerializeField] public float upwardsJumpVerticalRecoverySpeed;
-    [SerializeField] public float downwardsJumpVerticalRecoverySpeed;
+    [SerializeField] public float upwardsLedgeScalar;
+    [SerializeField] public float downwardsLedgeScalar;
 
     [SerializeField] float gravityScale;
     [SerializeField] float fallGravityScale;
@@ -66,13 +66,25 @@ public class PlayerMovement : MonoBehaviour
 
         // Running
         playerSpeed = walkSpeed;
-        if (Input.GetButton("Run"))
+        if (OnGround())
         {
-            playerSpeed = runSpeed;
+            if (Input.GetButton("Run"))
+            {
+                canRun = true;
+                playerSpeed = runSpeed;
+            }
+            else
+            {
+                canRun = false;
+            }
         }
-
-
-        isRunning = false;
+        else
+        {
+            if (canRun)
+            {
+                playerSpeed = runSpeed;
+            }
+        }
 
         // Horizontal Move
         moveInput = Input.GetAxisRaw("Horizontal");
@@ -155,23 +167,31 @@ public class PlayerMovement : MonoBehaviour
             rb.gravityScale = gravityScale;
         }
 
+
+        Debug.Log(rb.velocity.y);
+
         // Recovery
         if (!OnGround())  // If not no wall, but on corner.
         {
 
-            Debug.Log("CAN NOW LEDGE");
+            //Debug.Log("CAN NOW LEDGE");
 
             //if ((onWall && !onRecovery))
             if (((!onLeftWall && onLeftRecovery) || (!onRightWall && onRightRecovery)) && canLedgeGrab)
             {
-                Debug.Log("UP RECOVER");
-                if (isFalling)
+                //Debug.Log("UP RECOVER");
+                if (isFalling && rb.velocity.y < -13) // Player Falling drastically.
                 {
-                    rb.velocity = new Vector2(rb.velocity.x * downwardsJumpVerticalRecoverySpeed, rb.velocity.y + downwardsJumpVerticalRecoverySpeed); // PATCH
+                    rb.velocity = new Vector2(rb.velocity.x * downwardsLedgeScalar, rb.velocity.y + (rb.velocity.y * (-(downwardsLedgeScalar)))); // Upwards Motion
+                    Debug.Log("HAPPY LIFE");
+                }
+                else if (isFalling) {
+                    rb.velocity = new Vector2(rb.velocity.x * downwardsLedgeScalar, rb.velocity.y + (rb.velocity.y * (-(downwardsLedgeScalar)) * downwardsLedgeScalar));
+                    Debug.Log("HERE");
                 }
                 else
                 {
-                    rb.velocity = new Vector2(rb.velocity.x * downwardsJumpVerticalRecoverySpeed, rb.velocity.y + upwardsJumpVerticalRecoverySpeed);
+                    rb.velocity = new Vector2(rb.velocity.x * downwardsLedgeScalar, rb.velocity.y + upwardsLedgeScalar); // add Velocity 1.
                 }
 
                 StartCoroutine(LedgeCooldown());
@@ -213,7 +233,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator LedgeCooldown()
     {
         canLedgeGrab = false;
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         Debug.Log("DONE");
         canLedgeGrab = true;
     }
