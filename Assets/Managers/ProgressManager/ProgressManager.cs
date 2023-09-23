@@ -8,11 +8,16 @@ using UnityEngine;
 public class ProgressManager : MonoBehaviour
 {
     [SerializeField]
+    private ActManager actManager;
+    
+    [SerializeField]
     private bool[] unlockedActs = { true, false, false, false, false, false };
-
+    
+    private List<MechComponent> componentList;
 
     void Start()
     {
+        componentList = actManager.GetComponentList();
         LoadProgress();
     }
 
@@ -23,7 +28,13 @@ public class ProgressManager : MonoBehaviour
 
     public void SaveProgress()
     {
+        SaveUnlockProgress();
+        SaveActProgress();
+        Debug.Log("Game data saved!");
+    }
 
+    private void SaveUnlockProgress()
+    {
         String sUnlockedActs = "";
 
         foreach (bool value in unlockedActs)
@@ -33,11 +44,25 @@ public class ProgressManager : MonoBehaviour
 
         PlayerPrefs.SetString("UnlockedActs", sUnlockedActs);
         PlayerPrefs.Save();
-        Debug.Log("Game data saved!");
-        Debug.Log(sUnlockedActs);
     }
 
-    public void LoadProgress()
+    private void SaveActProgress()
+    {
+        foreach (MechComponent component in componentList)
+        {
+            component.SaveProperties();
+        }
+        actManager.SaveProperties();
+    }
+    
+    private void LoadProgress()
+    {
+        LoadUnlockProgress();
+        LoadActProgress();
+        actManager.LoadProperties();
+    }
+
+    private void LoadUnlockProgress()
     {
         if (PlayerPrefs.HasKey("UnlockedActs"))
         {
@@ -49,15 +74,20 @@ public class ProgressManager : MonoBehaviour
             {
                 unlockedActs[i] = unlockedActsArray[i] == "True";
             }
-
-            Debug.Log("Game data loaded!");
-            Debug.Log(unlockedActs);
         }
         else
-            Debug.LogError("There is no save data!");
+            Debug.LogError("There is no unlock save data!");
     }
-
-    void ResetProgress()
+    
+    private void LoadActProgress()
+    {
+        foreach (MechComponent component in componentList)
+        {
+            component.LoadProperties();
+        }
+    }
+    
+    void ResetAllProgress()
     {
         PlayerPrefs.DeleteAll();
         unlockedActs = new bool[6] { true, false, false, false, false, false };
@@ -90,7 +120,7 @@ public class ProgressManager : MonoBehaviour
             LoadProgress();
         if (GUI.Button(new Rect(transform.position.x, transform.position.y + 120, 125, 50),
                     "Reset Save Data"))
-            ResetProgress();
+            ResetAllProgress();
     }
 
 }

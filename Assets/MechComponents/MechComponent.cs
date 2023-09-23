@@ -6,7 +6,7 @@ using UnityEditor;
 using Random = UnityEngine.Random;
 
 
-public abstract class MechComponent : MonoBehaviour
+public abstract class MechComponent : MonoBehaviour, ISerializedActObject
 {
     public enum MechComponentState { NotStarted, Running, Broken };
     [SerializeField]
@@ -116,7 +116,41 @@ public abstract class MechComponent : MonoBehaviour
         return mechComponentState;
     }
 
+    public void SaveProperties()
+    {
+        ChildSaveProperties();
+        PlayerPrefs.SetInt("mechComponentState", (int)mechComponentState);
+        PlayerPrefs.SetFloat("currentBreakTime", currentBreakTime);
+        PlayerPrefs.SetFloat("targetBreakTime", targetBreakTime);
+        PlayerPrefs.Save();
+        Debug.Log("saved mechComponentState " + mechComponentState );
+    }
 
+    public void LoadProperties()
+    {
+        ChildLoadProperties();
+        if (PlayerPrefs.HasKey("mechComponentState"))
+        {
+            int loadedMechComponentState = PlayerPrefs.GetInt("mechComponentState");
+            mechComponentState = (MechComponentState)loadedMechComponentState;
+            float loadedCurrentBreakTime = PlayerPrefs.GetFloat("currentBreakTime");
+            currentBreakTime = loadedCurrentBreakTime;
+            float loadedTargetBreakTime = PlayerPrefs.GetFloat("targetBreakTime");
+            targetBreakTime = loadedTargetBreakTime;
+
+        }
+        else{
+            Debug.LogError("There is no unlock save data!");
+            mechComponentState = MechComponentState.NotStarted;
+        }
+    }
+
+    public abstract void ChildSaveProperties();
+
+
+    public abstract void ChildLoadProperties();
+    
+    
     void OnGUI()
     {
         if (GUI.Button(new Rect(transform.position.x, transform.position.y, 125, 50), "Fix"))
@@ -127,6 +161,8 @@ public abstract class MechComponent : MonoBehaviour
         if (GUI.Button(new Rect(transform.position.x, transform.position.y + 120, 125, 50),
                     "Start"))
             StartComponent();
+        
+        GUI.Label(new Rect(transform.position.x + 40,transform.position.y + 180, 125, 50), mechComponentState.ToString());
     }
 
 }
