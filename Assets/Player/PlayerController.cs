@@ -64,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
+        Debug.Log(playerSpeed);
+
         // Running
         playerSpeed = walkSpeed;
         if (OnGround())
@@ -71,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButton("Run"))
             {
                 canRun = true;
-                playerSpeed = runSpeed;
+                StartCoroutine(RunGradient());
             }
             else
             {
@@ -167,16 +169,9 @@ public class PlayerMovement : MonoBehaviour
             rb.gravityScale = gravityScale;
         }
 
-
-        Debug.Log(rb.velocity.y);
-
         // Recovery
         if (!OnGround())  // If not no wall, but on corner.
         {
-
-            //Debug.Log("CAN NOW LEDGE");
-
-            //if ((onWall && !onRecovery))
             if (((!onLeftWall && onLeftRecovery) || (!onRightWall && onRightRecovery)) && canLedgeGrab)
             {
                 //Debug.Log("UP RECOVER");
@@ -236,5 +231,12 @@ public class PlayerMovement : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Debug.Log("DONE");
         canLedgeGrab = true;
+    }
+
+    private IEnumerator RunGradient()
+    {
+        playerSpeed = walkSpeed + ((runSpeed - walkSpeed) / 2);
+        yield return new WaitForSeconds(0.2f);
+        playerSpeed = runSpeed;
     }
 }
