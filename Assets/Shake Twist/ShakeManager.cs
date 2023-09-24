@@ -17,8 +17,17 @@ public class ShakeManager : MonoBehaviour
     [SerializeField]
     private float spread = 30.0f;
     
+    
+    [SerializeField]
+    private float minTimeBetweenShakes = 1.0f;
+    [SerializeField]
+    private float maxTimeBetweenShakes = 5.0f;
+
+    private float timeToNextShake;
+    
     void Start()
     {
+        timeToNextShake = Random.Range(minTimeBetweenShakes, maxTimeBetweenShakes);
         GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
         foreach (GameObject go in allObjects){
             
@@ -42,7 +51,11 @@ public class ShakeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        timeToNextShake -= Time.deltaTime;
+        if (timeToNextShake <= 0.0f){
+            Bump();
+            timeToNextShake = Random.Range(minTimeBetweenShakes, maxTimeBetweenShakes);
+        }
     }
 
     public void Bump()
