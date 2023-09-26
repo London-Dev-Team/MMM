@@ -24,7 +24,7 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
     private float smokingTimeThreshold = 1.0f; // The last 1 second is when to start smoking.
     private bool isSmoking = false;
 
-    public void Start()
+    public virtual void Start()
     {
         SetNewBreakTarget();
     }
