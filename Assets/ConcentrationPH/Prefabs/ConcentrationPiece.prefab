@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5522036332201363347}
   - component: {fileID: 3545853962046453810}
   - component: {fileID: 6480959938117544310}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: ConcentrationPiece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b9274ac4d623c40987a25f0ddfc39e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pieceShape: 0
 --- !u!23 &3858381102557489266
 MeshRenderer:
   m_ObjectHideFlags: 0

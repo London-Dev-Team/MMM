@@ -7,6 +7,11 @@ public class ConcentrationPiece : MonoBehaviour
 {
 
     private Rigidbody2D rb;
+
+    public bool isSlotted = false;
+    
+    [SerializeField]
+    public ConcentrationSlot.ConcentrationSlotShape pieceShape = ConcentrationSlot.ConcentrationSlotShape.Square;
     
     // Start is called before the first frame update
     void Start()
@@ -14,9 +19,17 @@ public class ConcentrationPiece : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Slot(Vector3 freezePosition)
     {
-        
+        Debug.Log("Slotted!");
+        isSlotted = true;
+        transform.position = freezePosition;
     }
+    
+    public void Unslot()
+    {
+        Debug.Log("Unslotted!");
+        isSlotted = false;
+    }
+    
 }
