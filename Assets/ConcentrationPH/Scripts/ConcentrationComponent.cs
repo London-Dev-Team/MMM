@@ -25,6 +25,30 @@ public class ConcentrationComponent : MechComponent
         
     }
 
+    public override void Update()
+    {
+        base.Update();
+
+        bool allSlotted = true;
+        foreach (ConcentrationPiece piece in pieceList){
+            if (!piece.isSlotted){
+                allSlotted = false;
+            }
+        }
+
+        if (allSlotted){
+            switch (mechComponentState){
+                case MechComponentState.Broken:
+                    Fix();
+                    break;
+                case MechComponentState.NotStarted:
+                    StartComponent();
+                    break;
+                
+            }
+        }
+    }
+    
     public override bool StartComponent()
     {
         if (!base.StartComponent())
@@ -57,6 +81,10 @@ public class ConcentrationComponent : MechComponent
             return false;
         }
 
+        foreach (ConcentrationPiece piece in pieceList){
+            piece.Unslot();
+        }
+        
         // Anything unique to fixing a component goes here
         // E.g. when you break a fan you want it to stop spinning
         Debug.Log("Broke ConcentrationComponent!");
