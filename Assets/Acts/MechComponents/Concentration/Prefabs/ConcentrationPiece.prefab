@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5522036332201363347}
   - component: {fileID: 3545853962046453810}
   - component: {fileID: 6480959938117544310}
+  - component: {fileID: 6215863157521037305}
   m_Layer: 7
   m_Name: ConcentrationPiece
   m_TagString: Untagged
@@ -48,6 +49,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0b9274ac4d623c40987a25f0ddfc39e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isSlotted: 0
+  maxTimeUntilSlot: 1
+  maxForce: 1500
+  minForce: 500
+  spread: 30
   pieceShape: 0
 --- !u!23 &3858381102557489266
 MeshRenderer:
@@ -171,3 +177,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &6215863157521037305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 499714773098588692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2317e5d26a20f5f49a8841da6e62e75c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocityThreshold: 1
+  gravityScale: 3.5
+  fallGravityScale: 6.75
