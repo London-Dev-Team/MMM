@@ -63,6 +63,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2904183995277322316}
     m_Modifications:
+    - target: {fileID: 1231132785319254024, guid: f093dc4552fc3d445ad47352ad0f4ba3,
+        type: 3}
+      propertyPath: slotShape
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5046147264988300649, guid: f093dc4552fc3d445ad47352ad0f4ba3,
         type: 3}
       propertyPath: m_Name
@@ -202,6 +207,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6898777702157744994, guid: eba9ac716375fd5419d24cb84b7ababd,
+        type: 3}
+      propertyPath: pieceShape
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -300,6 +310,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2904183995277322316}
     m_Modifications:
+    - target: {fileID: 1231132785319254024, guid: f093dc4552fc3d445ad47352ad0f4ba3,
+        type: 3}
+      propertyPath: slotShape
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5046147264988300649, guid: f093dc4552fc3d445ad47352ad0f4ba3,
         type: 3}
       propertyPath: m_Name
@@ -517,6 +532,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6898777702157744994, guid: eba9ac716375fd5419d24cb84b7ababd,
+        type: 3}
+      propertyPath: pieceShape
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
