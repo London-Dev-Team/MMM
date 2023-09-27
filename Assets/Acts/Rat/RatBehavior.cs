@@ -88,20 +88,21 @@ public class RatBehavior : MonoBehaviour
     
     public void SetState(MovementState newState)
     {
-        switch(newState) 
-        {
-            case MovementState.Moving:
-                SetMovingState();
-                break;
-            case MovementState.Stopped:
-                SetStoppedState();
-                break;
-            case MovementState.OnFlywheel:
-                SetOnFlywheelState();
-                break;
-            default:
-                Debug.LogError("Unknown MovementState passed");
-                break;
+        if (rb2D.velocity.y == 0){
+            switch (newState){
+                case MovementState.Moving:
+                    SetMovingState();
+                    break;
+                case MovementState.Stopped:
+                    SetStoppedState();
+                    break;
+                case MovementState.OnFlywheel:
+                    SetOnFlywheelState();
+                    break;
+                default:
+                    Debug.LogError("Unknown MovementState passed");
+                    break;
+            }
         }
     }
     
@@ -134,10 +135,11 @@ public class RatBehavior : MonoBehaviour
         if (movementState != MovementState.Moving){
             return;
         }
-        
-        rb2D.velocity = new Vector2( (int)dirMoving * speed, rb2D.velocity.y);
-    
-    
+
+        if (rb2D.velocity.y == 0){
+            rb2D.velocity = new Vector2((int) dirMoving * speed, rb2D.velocity.y);
+        }
+
         int layerMask = 1 << LayerMask.NameToLayer("Rat");
         layerMask = ~layerMask;
     
