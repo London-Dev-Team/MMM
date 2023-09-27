@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 279492115961926209}
   - component: {fileID: 4886179740765181633}
+  - component: {fileID: 4012019379190378117}
   - component: {fileID: 6939231277883886970}
   - component: {fileID: 8003038739947435387}
   m_Layer: 6
@@ -52,6 +53,21 @@ MonoBehaviour:
   maxMoveTime: 3
   minStopTime: 0.5
   maxStopTime: 1
+--- !u!114 &4012019379190378117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4324084370837738656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2317e5d26a20f5f49a8841da6e62e75c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravityScale: 3.5
+  fallGravityScale: 6.75
+  velocityThreshold: 1
 --- !u!50 &6939231277883886970
 Rigidbody2D:
   serializedVersion: 4
