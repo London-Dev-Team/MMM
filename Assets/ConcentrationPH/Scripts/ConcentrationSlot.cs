@@ -33,7 +33,7 @@ public class ConcentrationSlot : MonoBehaviour
                 return;
             }
 
-            piece.Slot(transform.position - new Vector3(0, 0, 0.1f));
+            piece.Slot(transform.position - new Vector3(0, 0.25f, 0));
         }
     }
 }
