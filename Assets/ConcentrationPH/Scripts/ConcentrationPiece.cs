@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public class ConcentrationPiece : MonoBehaviour
@@ -9,7 +11,10 @@ public class ConcentrationPiece : MonoBehaviour
     private Rigidbody2D rb;
 
     public bool isSlotted = false;
-    
+
+    [SerializeField]
+    private float maxTimeUntilSlot = 1.0f;
+    private float currTimeUntilSlot = 0.0f;
     
     [SerializeField]
     private float maxForce = 1000.0f;
@@ -20,15 +25,35 @@ public class ConcentrationPiece : MonoBehaviour
     
     [SerializeField]
     public ConcentrationSlot.ConcentrationSlotShape pieceShape = ConcentrationSlot.ConcentrationSlotShape.Square;
+
+    private Material mat;
     
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        mat = GetComponent<MeshRenderer>().materials[0];
+    }
+
+    private void Update()
+    {
+        
+        mat.color = Color.red;
+        currTimeUntilSlot -= Time.deltaTime;
+        if (currTimeUntilSlot < 0.0f){
+            currTimeUntilSlot = 0.0f;
+        }
+        else{
+            mat.color = Color.blue;
+        }
     }
 
     public void Slot(Vector3 freezePosition)
     {
+        if (currTimeUntilSlot != 0.0f){
+            return;
+        }
+        
         Debug.Log("Slotted!");
         isSlotted = true;
         transform.position = freezePosition;
@@ -37,6 +62,7 @@ public class ConcentrationPiece : MonoBehaviour
     
     public void Unslot()
     {
+        currTimeUntilSlot = maxTimeUntilSlot;
         Debug.Log("Unslotted!");
         isSlotted = false;
         rb.constraints = RigidbodyConstraints2D.None;

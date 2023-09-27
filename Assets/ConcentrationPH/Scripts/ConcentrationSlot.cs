@@ -21,7 +21,7 @@ public class ConcentrationSlot : MonoBehaviour
         
     }
     
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerStay2D(Collider2D col)
     {
         if (col.gameObject.layer == LayerMask.NameToLayer("ConcentrationPiece") ){
             ConcentrationPiece piece = col.gameObject.GetComponent<ConcentrationPiece>();
@@ -33,7 +33,7 @@ public class ConcentrationSlot : MonoBehaviour
                 return;
             }
 
-            piece.Slot(transform.position);
+            piece.Slot(transform.position - new Vector3(0, 0, 0.1f));
         }
     }
 }
