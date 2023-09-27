@@ -58,6 +58,7 @@ public class ConcentrationPiece : MonoBehaviour
         isSlotted = true;
         transform.position = freezePosition;
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
+        transform.rotation = Quaternion.identity;
     }
     
     public void Unslot()
