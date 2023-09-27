@@ -64,21 +64,18 @@ public class PlayerMelee : MonoBehaviour
 
     void StartMelee()
     {
-        Debug.Log("WindUp!");
         currTime = windUpTime + followThroughTime;
         meleeState = MeleeState.WindUp;
     }
 
     void MeleeHit()
     {
-        Debug.Log("Hit!");
         meleeState = MeleeState.FollowThrough;
-        Instantiate(hitBoxPrefab, new Vector3(transform.position.x + Mathf.Sign(playerMovement.moveInput) * offset, transform.position.y, 0.0f), Quaternion.identity);
+        Instantiate(hitBoxPrefab, new Vector3(transform.position.x + Mathf.Sign(playerMovement.facingDirection) * offset, transform.position.y, 0.0f), Quaternion.identity);
     }
 
     void EndHit()
     {
-        Debug.Log("End!");
         currTime = 0.0f;
         meleeState = MeleeState.NotMelee;
     }

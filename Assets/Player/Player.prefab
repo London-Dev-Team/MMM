@@ -138,6 +138,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  facingDirection: 1
   walkSpeed: 6
   runSpeed: 12
   jumpSpeed: 16
@@ -238,9 +239,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ceac169df30be8d4c8720c2f24964d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hitBoxPrefab: {fileID: 4478969079848524852, guid: 9de19ebc1da4d2346ab83dfbcb019389,
+    type: 3}
   meleeState: 0
   windUpTime: 0.3
   followThroughTime: 0.3
+  offset: 0.8
 --- !u!1 &7909316016230281811
 GameObject:
   m_ObjectHideFlags: 0
