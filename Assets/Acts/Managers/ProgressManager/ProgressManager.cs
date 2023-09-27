@@ -11,7 +11,7 @@ public class ProgressManager : MonoBehaviour
     private ActManager actManager;
     
     [SerializeField]
-    private bool[] unlockedActs = { true, false, false, false, false, false };
+    private ProgressAsset progressAsset;
     
     private List<MechComponent> componentList;
 
@@ -37,7 +37,7 @@ public class ProgressManager : MonoBehaviour
     {
         String sUnlockedActs = "";
 
-        foreach (bool value in unlockedActs)
+        foreach (bool value in progressAsset.unlockedActs)
         {
             sUnlockedActs += value + " ";
         }
@@ -68,11 +68,11 @@ public class ProgressManager : MonoBehaviour
         {
             String sUnlockedActs = PlayerPrefs.GetString("UnlockedActs");
 
-            String[] unlockedActsArray = sUnlockedActs.Split(" ");
+            String[] progressAssetArray = sUnlockedActs.Split(" ");
 
-            for (int i = 0; i < unlockedActsArray.Length - 1; i++)
+            for (int i = 0; i < progressAssetArray.Length - 1; i++)
             {
-                unlockedActs[i] = unlockedActsArray[i] == "True";
+                progressAsset.unlockedActs[i] = progressAssetArray[i] == "True";
             }
         }
         else
@@ -90,15 +90,15 @@ public class ProgressManager : MonoBehaviour
     void ResetAllProgress()
     {
         PlayerPrefs.DeleteAll();
-        unlockedActs = new bool[6] { true, false, false, false, false, false };
+        progressAsset.unlockedActs = new bool[6] { true, false, false, false, false, false };
         Debug.Log("Data reset complete");
     }
 
     public void UnlockAct(int levelIndex)
     {
-        if (levelIndex < unlockedActs.Length)
+        if (levelIndex < progressAsset.unlockedActs.Length)
         {
-            unlockedActs[levelIndex] = true;
+            progressAsset.unlockedActs[levelIndex] = true;
         }
         else
         {
@@ -108,7 +108,7 @@ public class ProgressManager : MonoBehaviour
 
     public void LockAct(int levelIndex)
     {
-        unlockedActs[levelIndex] = false;
+        progressAsset.unlockedActs[levelIndex] = false;
     }
 
     void OnGUI()

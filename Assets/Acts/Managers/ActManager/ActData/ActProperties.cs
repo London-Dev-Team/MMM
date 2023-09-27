@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/ActProperties", order = 1)]
+[CreateAssetMenu(fileName = "Data", menuName = "ScriptableObjects/Act Properties", order = 1)]
 public class ActProperties : ScriptableObject
 {
     
