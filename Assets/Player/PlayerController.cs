@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
 
     public LayerMask whatIsGround;
 
-    private float moveInput;
+    public float moveInput;
 
     [SerializeField] public float walkSpeed;
     [SerializeField] public float runSpeed;
