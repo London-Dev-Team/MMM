@@ -67,7 +67,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gravityScale: 3.5
   fallGravityScale: 6.75
-  velocityThreshold: 5
+  velocityThreshold: 1
 --- !u!50 &6939231277883886970
 Rigidbody2D:
   serializedVersion: 4
