@@ -103,16 +103,18 @@ public class ConcentrationComponent : MechComponent
     public override void ChildSaveProperties()
     {
         Debug.Log("Saving data specific to ConcentrationComponent!");
-        // PlayerPrefs.SetString("ComponentProperty", componentProperty);
-        // PlayerPrefs.Save();
+        foreach (ConcentrationPiece piece in pieceList){
+            piece.SaveProperties();
+        }
     }
     
     
     public override void ChildLoadProperties()
     {
         Debug.Log("Loading data specific to ConcentrationComponent!");
-        // String loadedComponentProperty = PlayerPrefs.GetString("ComponentProperty");
-        // componentProperty = loadedComponentProperty;
+        foreach (ConcentrationPiece piece in pieceList){
+            piece.LoadProperties();
+        }
     }
     
     public override void StartSmoking()

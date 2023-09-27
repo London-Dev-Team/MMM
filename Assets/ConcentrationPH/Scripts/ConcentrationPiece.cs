@@ -5,7 +5,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class ConcentrationPiece : MonoBehaviour
+public class ConcentrationPiece : MonoBehaviour, ISerializedActObject
 {
 
     private Rigidbody2D rb;
@@ -78,6 +78,16 @@ public class ConcentrationPiece : MonoBehaviour
         angle += 90.0f * Mathf.PI / 180.0f;
         Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
         rb.AddForce( direction * force);
+    }
+
+    public void LoadProperties()
+    {
+        
+    }
+
+    public void SaveProperties()
+    {
+        
     }
     
 }
