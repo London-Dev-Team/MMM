@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6480959938117544310}
   - component: {fileID: 6215863157521037305}
   - component: {fileID: 1337530936780651124}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: ConcentrationPiece
   m_TagString: Ground
   m_Icon: {fileID: 0}
