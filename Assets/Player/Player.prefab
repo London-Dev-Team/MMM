@@ -141,9 +141,9 @@ MonoBehaviour:
   runSpeed: 12
   jumpSpeed: 16
   jumpTime: 0.2
-  wallCheckWH: 0.15
+  wallCheckWH: 0.1
   upwardsLedgeScalar: 1
-  downwardsLedgeScalar: 1.45
+  downwardsLedgeScalar: 1.5
   downwardsLedgeThreshold: 13
   leftUpgroundCheck: {fileID: 2599415818488966189}
   rightUpgroundCheck: {fileID: 2275942651025139083}
