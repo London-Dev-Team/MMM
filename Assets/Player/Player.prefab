@@ -141,7 +141,7 @@ MonoBehaviour:
   runSpeed: 12
   jumpSpeed: 16
   jumpTime: 0.2
-  wallCheckWH: 0.15
+  wallCheckWH: 0.1
   upwardsLedgeScalar: 1
   downwardsLedgeScalar: 1.45
   downwardsLedgeThreshold: 13
