@@ -184,7 +184,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60
-  orthographic: 1
+  orthographic: 0
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -295,7 +295,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 883be52d12257f040815886910faf916, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -699,6 +699,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4718615329297781747, guid: f483199ad6e06fe4fabc622d12ad52d7,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4718615329297781747, guid: f483199ad6e06fe4fabc622d12ad52d7,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4718615329297781747, guid: f483199ad6e06fe4fabc622d12ad52d7,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4718615329297781747, guid: f483199ad6e06fe4fabc622d12ad52d7,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5729110975400458504, guid: f483199ad6e06fe4fabc622d12ad52d7,
         type: 3}
       propertyPath: m_RootOrder
@@ -753,6 +773,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770742009780012971, guid: f483199ad6e06fe4fabc622d12ad52d7,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 2.83014
+      objectReference: {fileID: 0}
+    - target: {fileID: 5770742009780012971, guid: f483199ad6e06fe4fabc622d12ad52d7,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 4.016002
       objectReference: {fileID: 0}
     - target: {fileID: 7628383090271975246, guid: f483199ad6e06fe4fabc622d12ad52d7,
         type: 3}
