@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 2360058456300436048}
   - component: {fileID: 7487360886392128955}
   - component: {fileID: -8499302634455083511}
+  - component: {fileID: 1113060611623356884}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -137,6 +138,7 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 8
+  facingDirection: 1
   walkSpeed: 6
   runSpeed: 12
   jumpSpeed: 16
@@ -225,6 +227,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1113060611623356884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3341656664437113428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceac169df30be8d4c8720c2f24964d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitBoxPrefab: {fileID: 4478969079848524852, guid: 9de19ebc1da4d2346ab83dfbcb019389,
+    type: 3}
+  meleeState: 0
+  windUpTime: 0.3
+  followThroughTime: 0.3
+  offset: 0.8
 --- !u!1 &7909316016230281811
 GameObject:
   m_ObjectHideFlags: 0

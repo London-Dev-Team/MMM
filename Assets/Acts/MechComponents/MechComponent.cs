@@ -22,9 +22,9 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
     
     [SerializeField]
     private float smokingTimeThreshold = 1.0f; // The last 1 second is when to start smoking.
-    private bool isSmoking = false;
+    public bool isSmoking = false;
 
-    public void Start()
+    public virtual void Start()
     {
         SetNewBreakTarget();
     }
@@ -43,13 +43,16 @@ public abstract class MechComponent : MonoBehaviour, ISerializedActObject
     
     public virtual bool Fix()
     {
-        if (mechComponentState != MechComponentState.Broken)
+        if (mechComponentState == MechComponentState.NotStarted)
         {
-            Debug.LogError("Cannot Fix() this component unless it's Broken!");
+            Debug.LogError("Cannot Fix() this component if it's NotStarted!");
             return false;
         }
         
+        isSmoking = false;
         SetNewBreakTarget();
+        currentBreakTime = 0.0f;
+        StopSmoking();
         
         mechComponentState = MechComponentState.Running;
         return true;

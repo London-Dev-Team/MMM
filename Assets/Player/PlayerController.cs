@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
 
     private float moveInput;
+    public int facingDirection = 1;
 
     [SerializeField] public float walkSpeed;
     [SerializeField] public float runSpeed;
@@ -61,6 +63,10 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
 
+        if (moveInput != 0.0f){
+            facingDirection = Math.Sign(moveInput);
+        }
+        
         // Walk / Run Speeds
         playerSpeed = walkSpeed;
         if (OnGround())
