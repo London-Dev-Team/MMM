@@ -185,7 +185,7 @@ public class PlayerMovement : MonoBehaviour
             jumpTimeCounter = jumpTime;
 
             rb.velocity = Vector2.up * jumpSpeed;
-
+            //rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
             jumpBufferCounter = 0f;
             StartCoroutine(JumpCooldown());
         }
@@ -196,6 +196,7 @@ public class PlayerMovement : MonoBehaviour
             if (jumpTimeCounter > 0)
             {
                 rb.velocity = Vector2.up * jumpSpeed;
+                //rb.AddForce(Vector2.up * jumpSpeed, ForceMode2D.Impulse);
                 jumpTimeCounter -= Time.deltaTime;
 
                 coyoteTimeCounter = 0f;
