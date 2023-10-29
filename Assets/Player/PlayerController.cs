@@ -184,7 +184,7 @@ public class PlayerMovement : MonoBehaviour
             isJumping = true;
             jumpTimeCounter = jumpTime;
 
-            rb.velocity = Vector2.up * jumpSpeed;
+            rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
 
             jumpBufferCounter = 0f;
             StartCoroutine(JumpCooldown());
@@ -195,7 +195,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (jumpTimeCounter > 0)
             {
-                rb.velocity = Vector2.up * jumpSpeed;
+                rb.velocity = new Vector2(rb.velocity.x, jumpSpeed);
 
                 jumpTimeCounter -= Time.deltaTime;
 
