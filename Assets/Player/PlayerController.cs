@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
 
     public Animator animator;
+    public SpriteRenderer spriteRenderer;
 
     private Rigidbody2D rb;
     private BoxCollider2D boxCol;
@@ -64,10 +65,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-
+        
         if (moveInput != 0.0f){
             facingDirection = Math.Sign(moveInput);
         }
+
+        spriteRenderer.flipX = facingDirection != 1;
 
         // Walk / Run Speeds
         playerSpeed = walkSpeed;
@@ -97,6 +100,18 @@ public class PlayerMovement : MonoBehaviour
 
         // Horizontal Force
         moveInput = Input.GetAxisRaw("Horizontal");
+        
+        if (!OnGround()){
+            animator.Play("Jump");
+        }
+        else if (moveInput != 0){
+            animator.Play("Run");
+        }
+        else{
+            animator.Play("Idle");
+            
+        }
+
         
         // rb.velocity = new Vector2(moveInput * playerSpeed, 0);
 
