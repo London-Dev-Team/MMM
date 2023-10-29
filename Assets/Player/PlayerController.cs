@@ -57,6 +57,8 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         boxCol = GetComponent<BoxCollider2D>();
 
+        playerSpeed = walkSpeed;
+
     }
 
 
@@ -66,9 +68,10 @@ public class PlayerMovement : MonoBehaviour
         if (moveInput != 0.0f){
             facingDirection = Math.Sign(moveInput);
         }
-        
+
         // Walk / Run Speeds
         playerSpeed = walkSpeed;
+        
         if (OnGround())
         {
             if (Input.GetButton("Run"))
@@ -88,16 +91,59 @@ public class PlayerMovement : MonoBehaviour
                 playerSpeed = runSpeed;
             }
         }
+        
 
+        Debug.Log(moveInput);
 
-        // Horizontal Movement
+        // Horizontal Force
         moveInput = Input.GetAxisRaw("Horizontal");
-        rb.velocity = new Vector3(moveInput * playerSpeed, rb.velocity.y, 0);
+        
+        // rb.velocity = new Vector2(moveInput * playerSpeed, 0);
 
+        if (moveInput <= 1f && moveInput > 0f)
+        {
+            if (rb.velocity.x < playerSpeed)
+            {
+                rb.AddForce(new Vector2(moveInput * playerSpeed, 0), ForceMode2D.Impulse);
+            }
+        }
 
-        // Falling
-        isFalling = rb.velocity.y < 0 ? true : false;
+        if (moveInput >= -1f && moveInput < 0f)
+        {
+            if (rb.velocity.x > -playerSpeed)
+            {
+                rb.AddForce(new Vector2(moveInput * playerSpeed, 0), ForceMode2D.Impulse);
+            }
+        }
 
+        // Clamp-On Max Speed / Stops
+        
+        if (!(moveInput <= 1f && moveInput > 0f)) 
+        {
+            if (rb.velocity.x > 0f)
+            {
+                rb.AddForce(new Vector2(-rb.velocity.x, 0), ForceMode2D.Impulse);
+            }
+        }
+
+        if (!(moveInput >= -1f && moveInput < 0f))
+        {
+            if (rb.velocity.x < 0f)
+            {
+                rb.AddForce(new Vector2(-rb.velocity.x, 0), ForceMode2D.Impulse);
+            }
+        }
+        
+        if (rb.velocity.x > playerSpeed)
+        {
+            rb.AddForce(new Vector2(-(rb.velocity.x - playerSpeed), 0), ForceMode2D.Impulse);
+        }
+
+        if (rb.velocity.x < -playerSpeed)
+        {
+            rb.AddForce(new Vector2(-(rb.velocity.x + playerSpeed), 0), ForceMode2D.Impulse);
+        }
+        
     }
 
 
@@ -109,6 +155,8 @@ public class PlayerMovement : MonoBehaviour
         onLeftLedge = Physics2D.OverlapBox(leftUpgroundCheck.position, new Vector2(wallCheckWH, wallCheckWH), whatIsGround);
         onRightLedge = Physics2D.OverlapBox(rightUpgroundCheck.position, new Vector2(wallCheckWH, wallCheckWH), whatIsGround);
 
+        // Falling
+        isFalling = rb.velocity.y < 0 ? true : false;
 
         // Coyote Time
         if (OnGround())
@@ -148,6 +196,7 @@ public class PlayerMovement : MonoBehaviour
             if (jumpTimeCounter > 0)
             {
                 rb.velocity = Vector2.up * jumpSpeed;
+
                 jumpTimeCounter -= Time.deltaTime;
 
                 coyoteTimeCounter = 0f;
@@ -222,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator RunGradient()
     {
         playerSpeed = walkSpeed + ((runSpeed - walkSpeed) / 2);
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         playerSpeed = runSpeed;
     }
 
